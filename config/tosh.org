@@ -4,10 +4,15 @@ This is based on [[https://dl.dropboxusercontent.com/u/3968124/sacha-emacs.html]
 This is a bit of an amalgamation of both and large parts have been lifted directly from there.
 
 * Setup
-First create the appropriate directory structure
+First things first, clone this repo into your home directory
+#+BEGIN_SRC sh :tangle no
+git clone git@github.com:toshism/.emacs.d.git
+#+END_SRC
+
+Create the appropriate directory structure to kick things off
 
 #+BEGIN_SRC sh :tangle no
-mkdir -p ~/.emacs.d/elisp
+mkdir ~/.emacs.d/elisp
 #+END_SRC
 
 In order to load this config we need to have org mode loaded, so check out the org mode src
