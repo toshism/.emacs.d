@@ -1,6 +1,8 @@
 #+TITLE: Org mode settings
 
 * Temporary bulk dump from old init
+I need to clean this up, but I also need to use it.
+
 #+BEGIN_SRC emacs-lisp
 ;; hide leading stars, looks a little less confusing to me
 (setq org-hide-leading-stars t)
@@ -80,5 +82,5 @@ much more like reading and editing of code using its major mode.
 
 
 * Tasks
-
+Personal stuff, ignore
 ** TODO clean up dump from old init
