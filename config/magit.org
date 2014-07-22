@@ -1,0 +1,12 @@
+#+TITLE: Magit config
+
+* Install package
+Install and initialize package
+#+BEGIN_SRC emacs-lisp
+(ensure-package-installed 'magit)
+(package-initialize)
+#+END_SRC
+* Set keybinding
+#+BEGIN_SRC emacs-lisp
+(global-set-key "\C-xg" 'magit-status)
+#+END_SRC

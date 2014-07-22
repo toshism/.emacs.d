@@ -1,0 +1,50 @@
+#+TITLE: ibuffer settings
+* Keybindings
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+#+END_SRC
+* Filter groups
+** Custom filter groups
+setup some custom filter groups.
+#+BEGIN_SRC emacs-lisp
+(setq ibuffer-saved-filter-groups
+      (quote (("default"
+	       ("SwapServe"
+		(filename . "projects/SwapServe/"))
+               ("PBS"
+                (filename . "projects/PBS/"))
+               ("National Geographic"
+		(filename . "projects/natgeo/"))
+               ("Heapsort"
+                (filename . "projects/heapsort/"))
+               ("Org" ;; all org stuff
+                (mode . org-mode))
+               ("dired"
+                (mode . dired-mode))
+               ("Magit"
+                (name . "\*magit"))
+               ("Emacs"
+                (name . "^\\*.*\\*$"))))))
+#+END_SRC
+
+** Hide empty filter groups
+keep it tidy
+#+BEGIN_SRC emacs-lisp
+(setq ibuffer-show-empty-filter-groups nil)
+#+END_SRC
+
+** Default to custom groups
+auto laod the default group of custom filter groups
+#+BEGIN_SRC emacs-lisp
+(add-hook 'ibuffer-mode-hook
+          (lambda ()
+            (ibuffer-switch-to-saved-filter-groups "default")))
+#+END_SRC
+
+* Settings
+#+BEGIN_SRC emacs-lisp
+(autoload 'ibuffer "ibuffer" "List buffers." t)
+
+;; don't prompt for closing saved buffers
+(setq ibuffer-expert t)
+#+END_SRC

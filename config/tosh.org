@@ -1,0 +1,212 @@
+#+TITLE: Tosh's Emacs configuration
+* About
+This is based on [[https://dl.dropboxusercontent.com/u/3968124/sacha-emacs.html][Sacha Chua's emacs config]] which is in turn based on [[http://eschulte.me/emacs24-starter-kit/#installation][Emacs Starter Kit]].
+This is a bit of an amalgamation of both and large parts have been lifted directly from there.
+
+* Setup
+First create the appropriate directory structure
+
+#+BEGIN_SRC sh :tangle no
+mkdir -p ~/.emacs.d/elisp
+#+END_SRC
+
+In order to load this config we need to have org mode loaded, so check out the org mode src
+
+#+BEGIN_SRC sh :tangle no
+cd ~/.emacs.d/elisp
+git clone git://orgmode.org/org-mode.git
+#+END_SRC
+
+Now we need to create the base init.el file which will then load this file.
+Create the file =~/.emacs.d/init.el= and place the following code in it.
+
+#+BEGIN_SRC emacs-lisp :tangle no
+;; This sets up the load path so that we can override it
+(package-initialize nil)
+;; Override the packages with the git version of Org
+(add-to-list 'load-path "~/elisp/org-mode/lisp")
+(add-to-list 'load-path "~/elisp/org-mode/contrib/lisp")
+;; Load the rest of the packages
+(package-initialize t)
+(require 'org)
+(require 'ob-tangle)
+(org-babel-load-file (expand-file-name "~/.emacs.d/tosh.org"))
+#+END_SRC
+
+* Configuration
+** Personalization
+I'm honestly not even sure where this is used, but anyway...
+#+BEGIN_SRC emacs-lisp
+(setq user-full-name "Tosh"
+      user-mail-address "tosh.lyons@gmail.com")
+#+END_SRC
+** Directory settings
+*** Default config directory
+#+BEGIN_SRC emacs-lisp
+(setq config-dir "~/.emacs.d/config/")
+#+END_SRC
+** General emacs settings
+*** Turn off useless window junk
+#+BEGIN_SRC emacs-lisp
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+#+END_SRC
+
+*** Turn off startup message
+#+BEGIN_SRC emacs-lisp
+(setq inhibit-startup-message t
+      inhibit-startup-echo-area-message t)
+#+END_SRC
+
+*** Move mouse pointer when cursor is too close
+#+BEGIN_SRC
+(mouse-avoidance-mode 'exile)
+#+END_SRC
+
+*** Turn off annoying beep
+#+BEGIN_SRC emacs-lisp
+(setq ring-bell-function 'ignore)
+#+END_SRC
+
+*** Highlight current line
+#+BEGIN_SRC emacs-lisp
+(when (fboundp 'global-hl-line-mode)
+  (global-hl-line-mode t))
+#+END_SRC
+
+*** Preserve syntax highlighting
+This preserves syntax highlighting on current line when =hl-line-mode= is enabled
+#+BEGIN_SRC emacs-lisp
+(set-face-foreground 'highlight nil)
+#+END_SRC
+
+*** Show line number in modeline
+#+BEGIN_SRC emacs-lisp
+(line-number-mode t)
+#+END_SRC
+
+*** Indent spaces
+No tabs, always spaces
+#+BEGIN_SRC emacs-lisp
+(setq-default indent-tabs-mode nil)
+#+END_SRC
+
+*** Show matching paren
+Highlights the corresponding parentheses
+#+BEGIN_SRC emacs-lisp
+(show-paren-mode t)
+#+END_SRC
+
+*** Delete trailing whitespace on save
+Trailing whitespace is annoying. Kills left over indentions on empty lines too
+#+BEGIN_SRC emacs-lisp
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+#+END_SRC
+
+*** Backup file settings
+Save backup files to a single directory (=~/.emacs.d/.saves= in this case). This prevents having
+=filename.txt~= files strung all over the place.
+
+Backup by copy. This preserves ownership and has some other affects as well. If you really care
+about the details see [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Backup-Copying.html#Backup-Copying][here]].
+#+BEGIN_SRC emacs-lisp
+(setq backup-directory-alist `(("." . "~/.emacs.d/.saves")))
+(setq backup-by-copying t)
+#+END_SRC
+
+*** Command for alt on the mac
+Alt is hard to hit on the mac, use command
+#+BEGIN_SRC emacs-lisp
+(setq mac-command-modifier 'meta
+      mac-option-modifier nil)
+#+END_SRC
+** Custom key bindings
+*** Goto line number
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "M-g") 'goto-line)
+#+END_SRC
+
+*** Find file
+Find a file instead of fill column. What a waste of a keybinding that was...
+Some of the fill commands are handy though [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Fill-Commands.html][Fill commands docs]]
+#+BEGIN_SRC emacs-lisp
+(global-set-key "\C-xf" 'find-file)
+#+END_SRC
+
+*** Be more like readline
+Set =C-w= to kill word backward like readline.
+Reassign =kill-region= to =C-x C-k= since it was =C-w=
+#+BEGIN_SRC emacs-lisp
+(global-set-key "\C-w" 'backward-kill-word)
+(global-set-key "\C-x\C-k" 'kill-region)
+#+END_SRC
+
+*** Invoke =M-x= without the alt key
+I'm sort of meh... about this. I picked it up from [[https://sites.google.com/site/steveyegge2/effective-emacs][Steve Yegge's effective emacs]] post
+It let's you use =C-x C-m= (or =C-c C-x= incase you fat finger it) instead of =M-x=
+#+BEGIN_SRC emacs-lisp
+(global-set-key "\C-x\C-m" 'execute-extended-command)
+(global-set-key "\C-c\C-m" 'execute-extended-command)
+#+END_SRC
+** Generic functions
+Functions not tied to a mode or anything
+*** Open previous line
+This is really handy. =C-o= opens a new line above the current line, regardless of cursor position
+#+BEGIN_SRC emacs-lisp
+(defun open-line-previous () "create new line above current line, regardless of cursor position"
+  (interactive)
+  (move-beginning-of-line nil)
+  (open-line 1))
+(global-set-key (kbd "C-o") 'open-line-previous)
+#+END_SRC
+
+*** Temporary point register
+This is handy for jumping back and forth and easier than the regular register commands
+#+BEGIN_SRC emacs-lisp
+(global-set-key "\C-cp" 'point-to-register)
+(global-set-key "\C-cj" 'jump-to-register)
+#+END_SRC
+*** Load subconfig org files
+#+BEGIN_SRC emacs-lisp
+  (defun load-config (file)
+    "Load a config module"
+    (org-babel-load-file (expand-file-name file config-dir)))
+#+END_SRC
+** Mode specific settings
+*** packages
+#+BEGIN_SRC emacs-lisp
+(load-config "packages.org")
+#+END_SRC
+*** ibuffer
+#+BEGIN_SRC emacs-lisp
+(load-config "ibuffer.org")
+#+END_SRC
+
+*** orgmode
+#+BEGIN_SRC emacs-lisp
+(load-config "orgmode.org")
+#+END_SRC
+
+*** magit
+#+BEGIN_SRC emacs-lisp
+(load-config "magit.org")
+#+END_SRC
+* Tasks [2/5]
+This is personal stuff and can be ignored
+** DONE figure out how to load external files
+for splitting out my mode specific stuff etc...
+   - is it just like =(org-babel-load-file (expand-file-name "~/.emacs.d/config/tosh.org"))= ?
+** TODO setup org mode
+** TODO try out python-django.el
+http://from-the-cloud.com/en/emacs/2013/01/28_emacs-as-a-django-ide-with-python-djangoel.html
+** TODO improve load-config function
+*** TODO allow file argument to optionally have extension
+    - check if file argument has .org or .el extension
+    - if no extension first try to load a .org file
+    - if .org not present load .el file
+      - not sure how this will work with babel compiling .org files to .el...
+** DONE setup auto installing of packages
+   - State "DONE"       from "TODO"       [2014-07-22 Tue 17:25]
+   - http://stackoverflow.com/questions/10092322/how-to-automatically-install-emacs-packages-by-specifying-a-list-of-package-name
+   - https://bigmac.caelum.uberspace.de/paste/ensure-package-installed.html

@@ -1,0 +1,5 @@
+/auto-save-list/
+/elpa/
+/.saves/
+/config/*.el
+/elisp/*

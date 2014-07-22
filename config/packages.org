@@ -1,0 +1,47 @@
+#+TITLE: Packages
+
+* About
+This is sort of a cobbled together amalgamation of snippets found [[http://stackoverflow.com/questions/10092322/how-to-automatically-install-emacs-packages-by-specifying-a-list-of-package-name][here]]
+
+It seems to work decent enough though and allows us to ensure that a package is installed
+from a mode specific config file.
+
+** Example
+An example from my magit.org config file
+#+BEGIN_SRC emacs-lisp :tangle no
+(ensure-package-installed 'magit)
+(package-initialize)
+#+END_SRC
+
+Place a snippet similar to that at the top of a config file that requires a package and it will
+be installed when the config is included.
+
+* Set up repositories
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/"))
+#+END_SRC
+
+* Refresh package contents
+If we don't have a package list, get one
+#+BEGIN_SRC emacs-lisp
+(unless package-archive-contents
+  (package-refresh-contents))
+#+END_SRC
+* Install package if not present
+Function to install a package if it's not presently installed
+This is used to allow model specific config files to install their respective packages
+#+BEGIN_SRC emacs-lisp
+  (defun ensure-package-installed (&rest packages)
+    "Assure every package is installed, ask for installation if it’s not.
+  Return a list of installed packages or nil for every package not installed."
+    (mapcar
+     (lambda (package)
+       (package-installed-p 'evil)
+       (if (package-installed-p package)
+           package
+         (if (y-or-n-p (format "Package %s is missing. Install it? " package))
+             (package-install package)
+           nil)))
+     packages))
+#+END_SRC
