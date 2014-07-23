@@ -3,3 +3,4 @@
 /.saves/
 /config/*.el
 /elisp/*
+/request/
