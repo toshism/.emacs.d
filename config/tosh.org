@@ -55,7 +55,6 @@ I'm honestly not even sure where this is used, but anyway...
 #+BEGIN_SRC emacs-lisp
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 #+END_SRC
 
 *** Turn off startup message
@@ -197,13 +196,18 @@ This is handy for jumping back and forth and easier than the regular register co
 #+BEGIN_SRC emacs-lisp
 (load-config "magit.org")
 #+END_SRC
-* Tasks [2/5]
+*** python-django
+#+BEGIN_SRC emacs-lisp
+(load-config "django.org")
+#+END_SRC
+* Tasks [3/5]
 This is personal stuff and can be ignored
 ** DONE figure out how to load external files
 for splitting out my mode specific stuff etc...
    - is it just like =(org-babel-load-file (expand-file-name "~/.emacs.d/config/tosh.org"))= ?
 ** TODO setup org mode
-** TODO try out python-django.el
+** DONE try out python-django.el
+   - State "DONE"       from "TODO"       [2014-07-23 Wed 00:42]
 http://from-the-cloud.com/en/emacs/2013/01/28_emacs-as-a-django-ide-with-python-djangoel.html
 ** TODO improve load-config function
 *** TODO allow file argument to optionally have extension
