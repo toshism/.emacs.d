@@ -1,4 +1,6 @@
+#+STARTUP: indent
 #+TITLE: Tosh's Emacs configuration
+
 * About
 This is based on [[https://dl.dropboxusercontent.com/u/3968124/sacha-emacs.html][Sacha Chua's emacs config]] which is in turn based on [[http://eschulte.me/emacs24-starter-kit/#installation][Emacs Starter Kit]].
 This is a bit of an amalgamation of both and large parts have been lifted directly from there.
@@ -200,6 +202,28 @@ This is handy for jumping back and forth and easier than the regular register co
 #+BEGIN_SRC emacs-lisp
 (load-config "django.org")
 #+END_SRC
+*** Emacs iPython Notebook                                       :disabled:
+This is broken. Seems to be an incompatibility somewhere between versions of websocket.el, ein, and ipython
+#+BEGIN_SRC emacs-lisp :tangle no
+(load-config "ein.org")
+#+END_SRC
+*** ido
+enable ido mode
+#+BEGIN_SRC emacs-lisp
+(ido-mode t)
+#+END_SRC
+
+**** enable flex matching
+#+BEGIN_SRC emacs-lisp
+(setq ido-enable-flex-matching t)
+#+END_SRC
+
+**** disable automatic file search
+I find this rarely helpful and often annoying when trying to create a new file
+#+BEGIN_SRC emacs-lisp
+(setq ido-auto-merge-work-directories-length -1)
+#+END_SRC
+
 * Tasks [3/5]
 This is personal stuff and can be ignored
 ** DONE figure out how to load external files
@@ -219,3 +243,6 @@ http://from-the-cloud.com/en/emacs/2013/01/28_emacs-as-a-django-ide-with-python-
    - State "DONE"       from "TODO"       [2014-07-22 Tue 17:25]
    - http://stackoverflow.com/questions/10092322/how-to-automatically-install-emacs-packages-by-specifying-a-list-of-package-name
    - https://bigmac.caelum.uberspace.de/paste/ensure-package-installed.html
+** TODO setup ein
+- annoyingly ein doesn't seem to support ipython 2.x yet
+  in fact i can't seem to find any combo of websocket/ipython that it does support currently

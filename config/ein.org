@@ -1,0 +1,13 @@
+#+TITLE: Emacs iPython Notebook Config
+
+* Install package
+Install and initialize ein
+#+BEGIN_SRC emacs-lisp
+(ensure-package-installed 'ein)
+(package-initialize)
+#+END_SRC
+
+* Keybindings
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c e l") 'ein:notebooklist-open)
+#+END_SRC

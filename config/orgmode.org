@@ -46,11 +46,20 @@ I need to clean this up, but I also need to use it.
     (beginning-of-line 0)
     (org-remove-empty-drawer-at "LOGBOOK" (point))))
 (add-hook 'org-clock-out-hook 'bh/remove-empty-drawer-on-clock-out 'append)
+
+;; indent the text below headers
+(setq org-startup-indented t)
 #+END_SRC
 
-* Stuff from emacs starter kit
 
-** Code blocks
+** Configuration
+
+*** ido completion
+#+BEGIN_SRC emacs-lisp
+(setq org-completion-use-ido t)
+#+END_SRC
+*** Stuff from emacs starter kit
+**** Code blocks
 This activates a number of widely used languages, you are encouraged
 to activate more languages using the customize interface for the
 =org-babel-load-languages= variable, or with an elisp form like the
@@ -69,7 +78,7 @@ although it is not added by default as a security precaution.
   (setq org-confirm-babel-evaluate nil)
 #+END_SRC
 
-** Code block fontification
+**** Code block fontification
 The following displays the contents of code blocks in Org-mode files
 using the major-mode of the code.  It also changes the behavior of
 =TAB= to as if it were used in the appropriate major mode.  This means
