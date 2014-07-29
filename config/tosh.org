@@ -237,7 +237,18 @@ http://repo.or.cz/w/emacs.git/blob_plain/HEAD:/lisp/ido.el
     (define-key map  'ido-next-match)
     (define-key ido-completion-map " " 'ido-next-match))
 #+END_SRC
-* Tasks [3/5]
+*** uniquify buffer names
+<n> is not very useful
+#+BEGIN_SRC emacs-lisp
+(require 'uniquify)
+#+END_SRC
+
+set =uniquify-buffer-name-style= to forward.
+makes buffers include part of the file path before the name
+#+BEGIN_SRC emacs-lisp
+(setq uniquify-buffer-name-style 'forward)
+#+END_SRC
+* Tasks [3/6]
 This is personal stuff and can be ignored
 ** DONE figure out how to load external files
 for splitting out my mode specific stuff etc...
@@ -256,6 +267,8 @@ http://from-the-cloud.com/en/emacs/2013/01/28_emacs-as-a-django-ide-with-python-
    - State "DONE"       from "TODO"       [2014-07-22 Tue 17:25]
    - http://stackoverflow.com/questions/10092322/how-to-automatically-install-emacs-packages-by-specifying-a-list-of-package-name
    - https://bigmac.caelum.uberspace.de/paste/ensure-package-installed.html
-** TODO setup ein
+** STARTED setup ein
+- State "STARTED"    from "TODO"       [2014-07-24 Thu 19:11]
 - annoyingly ein doesn't seem to support ipython 2.x yet
   in fact i can't seem to find any combo of websocket/ipython that it does support currently
+meh... lot's of problems with version compatibility
