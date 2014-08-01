@@ -204,8 +204,8 @@ This is really handy. =C-o= opens a new line above the current line, regardless 
 #+BEGIN_SRC emacs-lisp
 (load-config "magit.org")
 #+END_SRC
-*** python-django
-#+BEGIN_SRC emacs-lisp
+*** python-django                                                :disabled:
+#+BEGIN_SRC emacs-lisp :tangle no
 (load-config "django.org")
 #+END_SRC
 *** Emacs iPython Notebook                                       :disabled:
@@ -247,6 +247,10 @@ set =uniquify-buffer-name-style= to forward.
 makes buffers include part of the file path before the name
 #+BEGIN_SRC emacs-lisp
 (setq uniquify-buffer-name-style 'forward)
+#+END_SRC
+*** projectile
+#+BEGIN_SRC emacs-lisp
+(load-config "projectile.org")
 #+END_SRC
 * Tasks [3/6]
 This is personal stuff and can be ignored

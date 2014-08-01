@@ -1,0 +1,17 @@
+#+TITLE: Projectile settings
+
+* Info
+- github: https://github.com/bbatsov/projectile
+- homepage: http://batsov.com/projectile/
+
+* Install package
+Install and initialize =projectile.el=
+#+BEGIN_SRC emacs-lisp
+(ensure-package-installed 'projectile)
+(package-initialize)
+#+END_SRC
+
+* Enable globally
+#+BEGIN_SRC emacs-lisp
+(projectile-global-mode)
+#+END_SRC
