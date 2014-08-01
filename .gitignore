@@ -4,3 +4,6 @@
 /config/*.el
 /elisp/*
 /request/
+/.org-id-locations
+/projectile-bookmarks.eld
+/tramp
