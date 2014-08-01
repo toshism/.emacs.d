@@ -1,65 +1,79 @@
 #+TITLE: Org mode settings
 
-* Temporary bulk dump from old init
-I need to clean this up, but I also need to use it.
-
+* Keybindings
+** clock keys
 #+BEGIN_SRC emacs-lisp
-;; hide leading stars, looks a little less confusing to me
-(setq org-hide-leading-stars t)
-
-;; clock keys
 (global-set-key (kbd "C-c i") 'org-clock-in)
 (global-set-key (kbd "C-c o") 'org-clock-out)
 (global-set-key (kbd "C-c g") 'org-clock-goto)
 (global-set-key (kbd "M-P") 'org-metaup)
 (global-set-key (kbd "M-N") 'org-metadown)
+#+END_SRC
 
+* Configuration
+** todo keywords
+#+BEGIN_SRC emacs-lisp
 (setq org-todo-keywords
       (quote ((sequence "TODO(t)" "IN PROGRESS(i)" "STARTED(s!)" "|" "DONE(d!/!)")
               (sequence "WAITING(w@/!)" "SOMEDAY(S!)" "|" "CANCELLED(c@/!)"))))
-
-(setf org-todo-keyword-faces '(("TODO" . (:foreground "yellow" :background "red" :bold t :weight bold))
-			       ("IN PROGRESS" . (:foreground "red" :bold t :weight bold))
-			       ("STARTED" . (:foreground "cyan" :bold t :weight bold))
-			       ("DONE" . (:foreground "green" :bold t :weight bold))))
-
-;; auto clock in todo tasks but allow clocking of non-todo tasks as well
-(defun bh/clock-in-to-started (kw)
-  "Switch task from TODO to IN PROGRESS when clocking in"
-  (if (and (string-equal kw "TODO")
-           (not (string-equal (buffer-name) "*Remember*")))
-      "IN PROGRESS"
-    nil))
-(setq org-clock-in-switch-to-state (quote bh/clock-in-to-started))
-
-;; auto update dynamic blocks on clock out
+#+END_SRC
+** keyword faces
+#+BEGIN_SRC emacs-lisp
+  (setf org-todo-keyword-faces '(("TODO" . (:foreground "yellow" :background "red" :bold t :weight bold))
+                                 ("IN PROGRESS" . (:foreground "red" :bold t :weight bold))
+                                 ("STARTED" . (:foreground "cyan" :bold t :weight bold))
+                                 ("DONE" . (:foreground "green" :bold t :weight bold))))
+#+END_SRC
+** clock settings
+*** clock in todo tasks and set status
+also allow clocking of non-todos
+#+BEGIN_SRC emacs-lisp
+  (defun bh/clock-in-to-started (kw)
+    "Switch task from TODO to IN PROGRESS when clocking in"
+    (if (and (string-equal kw "TODO")
+             (not (string-equal (buffer-name) "*Remember*")))
+        "IN PROGRESS"
+      nil))
+  (setq org-clock-in-switch-to-state (quote bh/clock-in-to-started))
+#+END_SRC
+*** auto update dynamic blocks on clock out
+#+BEGIN_SRC emacs-lisp
 (add-hook 'org-clock-out-hook 'org-update-all-dblocks)
-
+#+END_SRC
+*** clock into drawer
+#+BEGIN_SRC emacs-lisp
 (setq org-clock-into-drawer t)
-;; fast todo selection. not sure if this is all that faster really...
-(setq org-use-fast-todo-selection t)
-
-;; Remove empty LOGBOOK drawers on clock out
+#+END_SRC
+*** remove empty LOGBOOK drawers on clock out
+#+BEGIN_SRC emacs-lisp
 (defun bh/remove-empty-drawer-on-clock-out ()
   (interactive)
   (save-excursion
     (beginning-of-line 0)
     (org-remove-empty-drawer-at "LOGBOOK" (point))))
 (add-hook 'org-clock-out-hook 'bh/remove-empty-drawer-on-clock-out 'append)
-
-;; indent the text below headers
+#+END_SRC
+** fast todo selection
+I'm not sure if this is really all that faster...
+#+BEGIN_SRC emacs-lisp
+(setq org-use-fast-todo-selection t)
+#+END_SRC
+** visual/display settings
+*** indent content below headings to heading level
+#+BEGIN_SRC emacs-lisp
 (setq org-startup-indented t)
 #+END_SRC
+*** hide leading stars
+#+BEGIN_SRC emacs-lisp
+(setq org-hide-leading-stars t)
+#+END_SRC
 
-
-** Configuration
-
-*** ido completion
+** ido completion
 #+BEGIN_SRC emacs-lisp
 (setq org-completion-use-ido t)
 #+END_SRC
-*** Stuff from emacs starter kit
-**** Code blocks
+** Stuff from emacs starter kit
+*** Code blocks
 This activates a number of widely used languages, you are encouraged
 to activate more languages using the customize interface for the
 =org-babel-load-languages= variable, or with an elisp form like the
@@ -78,7 +92,7 @@ although it is not added by default as a security precaution.
   (setq org-confirm-babel-evaluate nil)
 #+END_SRC
 
-**** Code block fontification
+*** Code block fontification
 The following displays the contents of code blocks in Org-mode files
 using the major-mode of the code.  It also changes the behavior of
 =TAB= to as if it were used in the appropriate major mode.  This means
@@ -89,7 +103,7 @@ much more like reading and editing of code using its major mode.
   (setq org-src-tab-acts-natively t)
 #+END_SRC
 
-
 * Tasks
 Personal stuff, ignore
-** TODO clean up dump from old init
+** DONE clean up dump from old init
+- State "DONE"       from "TODO"       [2014-08-01 Fri 16:32]
