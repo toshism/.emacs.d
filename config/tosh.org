@@ -2,8 +2,8 @@
 #+TITLE: Tosh's Emacs configuration
 
 * About
-This is based on [[https://dl.dropboxusercontent.com/u/3968124/sacha-emacs.html][Sacha Chua's emacs config]] which is in turn based on [[http://eschulte.me/emacs24-starter-kit/#installation][Emacs Starter Kit]].
-This is a bit of an amalgamation of both and large parts have been lifted directly from there.
+I originally this based on [[https://dl.dropboxusercontent.com/u/3968124/sacha-emacs.html][Sacha Chua's emacs config]] which is in turn based on [[http://eschulte.me/emacs24-starter-kit/#installation][Emacs Starter Kit]].
+At this point it's deviated considerably.
 
 * Setup
 First things first, clone this repo into your home directory
@@ -127,6 +127,55 @@ Alt is hard to hit on the mac, use command
 (setq mac-command-modifier 'meta
       mac-option-modifier nil)
 #+END_SRC
+*** Custom modeline
+#+BEGIN_SRC emacs-lisp
+      (setq-default mode-line-format
+            (list
+             ;; little breathing room
+             " "
+
+             ;; @ if we are editing a remote file
+             ;; - if we're local
+             (propertize "%@" 'face 'font-lock-warning-face)
+
+             ;; the buffer name; the file name as a tool tip
+             '(:eval (propertize "%b " 'face 'font-lock-warning-face
+                                 'help-echo (buffer-file-name)))
+
+             ;; line number
+             "@ L:" ;; '%02' to set to 2 chars at least; prevents flickering
+             (propertize "%02l" 'face 'font-lock-type-face)
+
+             ;; relative position, size of file
+             "    ["
+             (propertize "%p" 'face 'font-lock-constant-face) ;; % above top
+             "/"
+             (propertize "%I" 'face 'font-lock-constant-face) ;; size
+             "] "
+
+             ;; is this buffer read-only?
+             '(:eval (when buffer-read-only
+                       (concat "["  (propertize "RO"
+                                                'face 'font-lock-type-face
+                                                'help-echo "Buffer is read-only")
+                               "]")))
+             ;;"] "
+
+             ;; the current major mode for the buffer.
+             " ["
+             '(:eval (propertize "%m" 'face 'font-lock-string-face
+                                 'help-echo buffer-file-coding-system))
+             "] "
+
+             ;; was this buffer modified since the last save?
+             '(:eval (when (buffer-modified-p)
+                       (concat "*"  (propertize "Mod"
+                                                'face 'font-lock-warning-face
+                                                'help-echo "Buffer has been modified")
+                               "*")))
+
+             ))
+#+END_SRC
 ** Custom key bindings
 *** Goto line number
 #+BEGIN_SRC emacs-lisp
@@ -194,19 +243,13 @@ This is really handy. =C-o= opens a new line above the current line, regardless 
 #+BEGIN_SRC emacs-lisp
 (load-config "ibuffer.org")
 #+END_SRC
-
 *** orgmode
 #+BEGIN_SRC emacs-lisp
 (load-config "orgmode.org")
 #+END_SRC
-
 *** magit
 #+BEGIN_SRC emacs-lisp
 (load-config "magit.org")
-#+END_SRC
-*** python-django                                                :disabled:
-#+BEGIN_SRC emacs-lisp :tangle no
-(load-config "django.org")
 #+END_SRC
 *** Emacs iPython Notebook                                       :disabled:
 This is broken. Seems to be an incompatibility somewhere between versions of websocket.el, ein, and ipython
@@ -252,12 +295,13 @@ makes buffers include part of the file path before the name
 #+BEGIN_SRC emacs-lisp
 (load-config "projectile.org")
 #+END_SRC
-* Tasks [3/6]
+* Tasks [4/6]
 This is personal stuff and can be ignored
 ** DONE figure out how to load external files
 for splitting out my mode specific stuff etc...
    - is it just like =(org-babel-load-file (expand-file-name "~/.emacs.d/config/tosh.org"))= ?
-** TODO setup org mode
+** DONE setup org mode
+- State "DONE"       from "TODO"       [2014-08-01 Fri 19:30]
 ** DONE try out python-django.el
    - State "DONE"       from "TODO"       [2014-07-23 Wed 00:42]
 http://from-the-cloud.com/en/emacs/2013/01/28_emacs-as-a-django-ide-with-python-djangoel.html
