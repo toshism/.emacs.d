@@ -1,0 +1,40 @@
+#+TITLE: Jabber.el settings
+
+* Install
+Install and initialize  =jabber.el=
+#+BEGIN_SRC emacs-lisp
+  (ensure-package-installed 'jabber)
+  (package-initialize)
+#+END_SRC
+* Keybindings
+* Configuration
+** big chunks to try out from jose's config
+https://github.com/jsoa/Development/blob/master/dotfiles/emacs.d/jsoa/jabber.el
+#+BEGIN_SRC emacs-lisp
+  (setq jabber-history-enabled t)
+  (setq jabber-use-global-history nil)
+  (setq jabber-backlog-number 100)
+  (setq jabber-backlog-days 60)
+  (setq jabber-chat-fill-long-lines t)
+  (setq fsm-debug nil)
+
+
+  ;; Ref: https://github.com/alexott/emacs-configs/blob/master/rc/emacs-rc-jabber.el
+  (setq jabber-auto-reconnect t)
+  (setq jabber-groupchat-buffer-format "*-jg-%n-*")
+  (setq jabber-roster-buffer "*-jroster-*")
+  (setq jabber-roster-line-format " %c %-25n %u %-8s  %S")
+  (setq jabber-chat-buffer-format "*-jc-%n-*")
+  (setq jabber-muc-private-buffer-format "*-jmuc-priv-%g-%n-*")
+  (setq jabber-rare-time-format "%e %b %Y %H:00")
+
+  (setq jabber-chat-buffer-show-avatar nil)
+#+END_SRC
+** other various random things i need to classify
+#+BEGIN_SRC emacs-lisp
+  (setq jabber-avatar-verbose nil)
+  (setq jabber-vcard-avatars-retrieve nil)
+  (setq jabber-roster-buffer "*-jabber-*")
+  (setq jabber-roster-line-format " %c %-25n %u %-8s (%r)")
+#+END_SRC
+* Tasks

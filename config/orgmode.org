@@ -9,13 +9,34 @@
 (global-set-key (kbd "M-P") 'org-metaup)
 (global-set-key (kbd "M-N") 'org-metadown)
 #+END_SRC
-
+** store link
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c l") 'org-store-link)
+#+END_SRC
+** capture
+#+BEGIN_SRC emacs-lisp
+  (define-key global-map "\C-cc" 'org-capture)
+#+END_SRC
+** agenda
+#+BEGIN_SRC emacs-lisp
+  (global-set-key "\C-ca" 'org-agenda)
+#+END_SRC
+** switch between org file
+#+BEGIN_SRC emacs-lisp
+  (global-set-key "\C-cb" 'org-iswitchb)
+#+END_SRC
 * Configuration
 ** todo keywords
 #+BEGIN_SRC emacs-lisp
 (setq org-todo-keywords
       (quote ((sequence "TODO(t)" "IN PROGRESS(i)" "STARTED(s!)" "|" "DONE(d!/!)")
               (sequence "WAITING(w@/!)" "SOMEDAY(S!)" "|" "CANCELLED(c@/!)"))))
+#+END_SRC
+** agenda
+*** agenda files
+#+BEGIN_SRC emacs-lisp
+  (setq org-agenda-files (list "~/dev/notes/gannet.org"
+                               "~/dev/notes/natgeo/channel-redesign/natgeo.org"))
 #+END_SRC
 ** keyword faces
 #+BEGIN_SRC emacs-lisp
@@ -101,6 +122,18 @@ much more like reading and editing of code using its major mode.
 #+BEGIN_SRC emacs-lisp
   (setq org-src-fontify-natively t)
   (setq org-src-tab-acts-natively t)
+#+END_SRC
+
+** Capture
+*** default capture location
+#+BEGIN_SRC emacs-lisp
+  (setq org-default-notes-file "~/dev/notes/refile.org")
+#+END_SRC
+*** capture templates
+#+BEGIN_SRC emacs-lisp
+  (setq org-capture-templates
+        (quote (("w" "work todo" entry (file+headline "~/dev/notes/refile.org" "Work Tasks")
+                 "* TODO %? %^g:WORK:\n  %T\n  %i\n  %a"))))
 #+END_SRC
 
 * Tasks

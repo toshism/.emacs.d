@@ -1,0 +1,10 @@
+#+TITLE: Skewer configuration
+
+* Install package
+Install and initialize =skewer.el=
+#+BEGIN_SRC emacs-lisp
+(ensure-package-installed 'skewer-mode)
+(package-initialize)
+#+END_SRC
+* Keybindings
+* Configuration

@@ -300,6 +300,17 @@ makes buffers include part of the file path before the name
 #+BEGIN_SRC emacs-lisp
 (load-config "projectile.org")
 #+END_SRC
+*** skewer                                                       :disabled:
+live page reloading and js evaluation in emacs. sort of a slime-ish thing for js/html/css
+looks pretty awesome. alternative to swank-js.
+- https://github.com/skeeto/skewer-mode
+#+BEGIN_SRC emacs-lisp :tangle no
+(load-config "skewer.org")
+#+END_SRC
+*** jabber
+#+BEGIN_SRC emacs-lisp
+  (load-config "jabber.org")
+#+END_SRC
 * Tasks [4/6]
 This is personal stuff and can be ignored
 ** DONE figure out how to load external files
