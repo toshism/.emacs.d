@@ -7,6 +7,10 @@ Install and initialize  =jabber.el=
   (package-initialize)
 #+END_SRC
 * Keybindings
+** switch chat buffers
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x C-j b") 'ido-jabber-buffer)
+#+END_SRC
 * Configuration
 ** big chunks to try out from jose's config
 https://github.com/jsoa/Development/blob/master/dotfiles/emacs.d/jsoa/jabber.el
@@ -37,4 +41,33 @@ https://github.com/jsoa/Development/blob/master/dotfiles/emacs.d/jsoa/jabber.el
   (setq jabber-roster-buffer "*-jabber-*")
   (setq jabber-roster-line-format " %c %-25n %u %-8s (%r)")
 #+END_SRC
+** Don't steal mini buffer focus
+#+BEGIN_SRC emacs-lisp :tangle no
+  (define-jabber-alert echo "Show a message in the echo area"
+    (lambda (msg)
+      (unless (minibuffer-prompt)
+        (message "%s" msg))))
+#+END_SRC
 * Tasks
+** STARTED write jabber message buffer switcher
+- State "STARTED"    from "TODO"       [2014-08-08 Fri 19:44]
+this will print the matching buffers, but also prints nil for non-matching
+it's a start though
+#+BEGIN_SRC emacs-lisp :table no
+  (defun ido-for-mode(prompt the-mode)
+    (switch-to-buffer
+     (ido-completing-read prompt
+                          (save-excursion
+                            (delq
+                             nil
+                             (mapcar (lambda (buf)
+                                       (when (buffer-live-p buf)
+                                         (with-current-buffer buf
+                                           (and (eq major-mode the-mode)
+                                                (buffer-name buf)))))
+                                     (buffer-list)))))))
+
+  (defun ido-jabber-buffer()
+    (interactive)
+    (ido-for-mode "Jabber:" 'jabber-chat-mode))
+#+END_SRC

@@ -74,6 +74,17 @@ also allow clocking of non-todos
     (org-remove-empty-drawer-at "LOGBOOK" (point))))
 (add-hook 'org-clock-out-hook 'bh/remove-empty-drawer-on-clock-out 'append)
 #+END_SRC
+*** always use hours for clock time summary
+this makes it easier for billing
+#+BEGIN_SRC emacs-lisp
+  (setq org-time-clocksum-format
+        '(:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t))
+#+END_SRC
+*** use fractional time instead of minutes
+3.5 hours for example instead of 3:30
+#+BEGIN_SRC emacs-lisp
+  (setq org-time-clocksum-use-fractional t)
+#+END_SRC
 ** fast todo selection
 I'm not sure if this is really all that faster...
 #+BEGIN_SRC emacs-lisp
@@ -101,10 +112,11 @@ to activate more languages using the customize interface for the
 one below.  The customize interface of =org-babel-load-languages=
 contains an up to date list of the currently supported languages.
 #+BEGIN_SRC emacs-lisp
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((emacs-lisp . t)
-     (sh . t)))
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((emacs-lisp . t)
+       (shell . t)
+       (python .t)))
 #+END_SRC
 
 You are encouraged to add the following to your personal configuration
