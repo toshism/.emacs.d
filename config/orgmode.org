@@ -44,7 +44,22 @@
                                  ("IN PROGRESS" . (:foreground "red" :bold t :weight bold))
                                  ("STARTED" . (:foreground "cyan" :bold t :weight bold))
                                  ("DONE" . (:foreground "green" :bold t :weight bold))))
+
+
 #+END_SRC
+
+some custom faces
+#+BEGIN_SRC emacs-lisp :tangle no
+  (custom-set-faces
+   '(org-block-begin-line ((t (:inherit org-meta-line :foreground "gray69" :height 0.8))) t)
+   '(org-block-end-line ((t (:inherit org-meta-line :foreground "gray69" :height 0.8))) t)
+   '(org-date ((t (:foreground "dark magenta" :underline t :height 0.9))))
+   '(org-level-1 ((t (:inherit outline-1 :height 1.25))))
+   '(org-level-2 ((t (:inherit outline-2 :height 1.1))))
+   '(org-special-keyword ((t (:inherit font-lock-keyword-face :foreground "gray49" :height 0.75 :width normal)))))
+#+END_SRC
+
+
 ** clock settings
 *** clock in todo tasks and set status
 also allow clocking of non-todos
@@ -64,6 +79,10 @@ also allow clocking of non-todos
 *** clock into drawer
 #+BEGIN_SRC emacs-lisp
 (setq org-clock-into-drawer t)
+#+END_SRC
+*** log into drawer
+#+BEGIN_SRC emacs-lisp
+(setq org-log-into-drawer "STATE_CHANGES")
 #+END_SRC
 *** remove empty LOGBOOK drawers on clock out
 #+BEGIN_SRC emacs-lisp
@@ -105,18 +124,19 @@ I'm not sure if this is really all that faster...
 (setq org-completion-use-ido t)
 #+END_SRC
 ** Stuff from emacs starter kit
-*** Code blocks
+*** Babel Code blocks
 This activates a number of widely used languages, you are encouraged
 to activate more languages using the customize interface for the
 =org-babel-load-languages= variable, or with an elisp form like the
 one below.  The customize interface of =org-babel-load-languages=
 contains an up to date list of the currently supported languages.
 #+BEGIN_SRC emacs-lisp
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '((emacs-lisp . t)
-       (shell . t)
-       (python .t)))
+      (org-babel-do-load-languages
+       'org-babel-load-languages
+       '((emacs-lisp . t)
+         (shell . t)
+         (ditaa . t)
+         (python . t)))
 #+END_SRC
 
 You are encouraged to add the following to your personal configuration
@@ -148,6 +168,41 @@ much more like reading and editing of code using its major mode.
                  "* TODO %? %^g:WORK:\n  %T\n  %i\n  %a"))))
 #+END_SRC
 
+** ditaa
+#+BEGIN_SRC emacs-lisp
+  (setq org-ditaa-jar-path "~/.emacs.d/elisp/org-mode/contrib/scripts/ditaa.jar")
+#+END_SRC
+** Notify
+#+BEGIN_SRC emacs-lisp
+  (require 'org-notify)
+  (org-notify-start)
+#+END_SRC
+
+set the alerts
+#+BEGIN_SRC emacs-lisp
+  (org-notify-add 'default '(:time "10m" :actions -notify/window
+                                   :period "2m" :duration 120))
+#+END_SRC
+** norang reminder setup
+#+BEGIN_SRC emacs-lisp :tangle no
+  ; Erase all reminders and rebuilt reminders for today from the agenda
+  (defun bh/org-agenda-to-appt ()
+    (interactive)
+    (setq appt-time-msg-list nil)
+    (org-agenda-to-appt))
+
+  ; Rebuild the reminders everytime the agenda is displayed
+  (add-hook 'org-finalize-agenda-hook 'bh/org-agenda-to-appt 'append)
+
+  ; This is at the end of my .emacs - so appointments are set up when Emacs starts
+  (bh/org-agenda-to-appt)
+
+  ; Activate appointments so we get notifications
+  (appt-activate t)
+
+  ; If we leave Emacs running overnight - reset the appointments one minute after midnight
+  (run-at-time "24:01" nil 'bh/org-agenda-to-appt)
+#+END_SRC
 * Tasks
 Personal stuff, ignore
 ** DONE clean up dump from old init

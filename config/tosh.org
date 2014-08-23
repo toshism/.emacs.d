@@ -332,6 +332,14 @@ I like to split windows.[[https://github.com/dimitri/switch-window][switch-windo
   (ensure-package-installed 'switch-window)
   (package-initialize)
 #+END_SRC
+*** Theme
+This is not really mode specific but it needs to be run after the packages config
+make it pretty
+#+BEGIN_SRC emacs-lisp
+  (ensure-package-installed 'leuven-theme)
+    (package-initialize)
+  (load-theme 'leuven t)
+#+END_SRC
 * Tasks [4/6]
 This is personal stuff and can be ignored
 ** DONE figure out how to load external files
