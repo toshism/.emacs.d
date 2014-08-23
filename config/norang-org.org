@@ -4,7 +4,7 @@ This is a collection of snippets and notes i'm going to steal from his config
 and work on adapting to my own needs.
 
 ** Todo keywords
-Same keyword minus =PHONE=
+Same keywords minus =PHONE=
 I don't get phone calls
 #+BEGIN_SRC emacs-lisp
   (setq org-todo-keywords
@@ -25,7 +25,25 @@ His colors just for reference.
 #+END_SRC
 
 ** Todo state triggers
-changing task state automatically adds and removes some tags
+
+I have a few triggers that automatically assign tags to tasks based on
+state changes.  If a task moves to =CANCELLED= state then it gets a
+=CANCELLED= tag.  Moving a =CANCELLED= task back to =TODO= removes the
+=CANCELLED= tag.  These are used for filtering tasks in agenda views
+which I'll talk about later.
+
+The triggers break down to the following rules:
+
+- Moving a task to =CANCELLED= adds a =CANCELLED= tag
+- Moving a task to =WAITING= adds a =WAITING= tag
+- Moving a task to =HOLD= adds =WAITING= and =HOLD= tags
+- Moving a task to a done state removes =WAITING= and =HOLD= tags
+- Moving a task to =TODO= removes =WAITING=, =CANCELLED=, and =HOLD= tags
+- Moving a task to =NEXT= removes =WAITING=, =CANCELLED=, and =HOLD= tags
+- Moving a task to =DONE= removes =WAITING=, =CANCELLED=, and =HOLD= tags
+
+The tags are used to filter tasks in the agenda views conveniently.
+
 #+begin_src emacs-lisp
 (setq org-todo-state-tags-triggers
       (quote (("CANCELLED" ("CANCELLED" . t))
@@ -643,6 +661,147 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
         nil
       next-headline)))
 #+end_src
+** Task Estimates and column view
+:PROPERTIES:
+:CUSTOM_ID: TaskEstimates
+:END:
+
+Estimating how long tasks take to complete is a difficult skill to
+master.  Org-mode makes it easy to practice creating estimates for
+tasks and then clock the actual time it takes to complete.
+
+By repeatedly estimating tasks and reviewing how your estimate relates
+to the actual time clocked you can tune your estimating skills.
+*** Creating a task estimate with column mode
+:PROPERTIES:
+:CUSTOM_ID: CreatingTaskEstimates
+:END:
+
+I use =properties= and =column view= to do project estimates.
+
+I set up column view globally with the following headlines
+#+header: :tangle yes
+#+begin_src emacs-lisp
+; Set default column view headings: Task Effort Clock_Summary
+(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
+#+end_src
+
+This makes column view show estimated task effort and clocked times
+side-by-side which is great for reviewing your project estimates.
+
+A property called =Effort= records the estimated amount of time a
+given task will take to complete.  The estimate times I use are one
+of:
+
+- 15 minutes
+- 30 minutes
+- 1 hour
+- 2 hours
+- 3 hours
+- 4 hours
+- 6 hours
+- 8 hours
+- 16 hours
+
+These are stored for easy use in =column mode= in the global property
+=Effort_ALL=.
+#+header: :tangle yes
+#+begin_src emacs-lisp
+; global Effort estimate values
+; global STYLE property values for completion
+(setq org-global-properties (quote (("Effort_ALL" . "0:15 0:30 1:00 2:00 3:00 4:00 6:00 8:00 16:00 0:00")
+                                    ("STYLE_ALL" . "habit"))))
+#+end_src
+
+To create an estimate for a task or subtree start column mode with
+=C-c C-x C-c= and collapse the tree with =c=.  This shows a table
+overlayed on top of the headlines with the task name, effort estimate,
+and clocked time in columns.
+
+With the cursor in the =Effort= column for a task you can easily set
+the estimated effort value with the quick keys =1= through =9=.
+
+After setting the effort values exit =column mode= with =q=.
+*** Saving your estimate
+:PROPERTIES:
+:CUSTOM_ID: SavingEstimate
+:END:
+
+For fixed price jobs where you provide your estimate to a client, then
+work to complete the project it is useful to save the original
+estimate that is provided to the client.
+
+Save your original estimate by creating a dynamic clock report table
+at the top of your estimated project subtree.  Entering =C-c C-x i
+RET= inserts a clock table report with your estimated values and any
+clocked time to date.
+
+#+begin_src org :tangle no
+Original Estimate
+,#+BEGIN: columnview :hlines 1 :id local
+| Task                        | Estimated Effort | CLOCKSUM |
+|-----------------------------+------------------+----------|
+| ** TODO Project to estimate |             5:40 |          |
+| *** TODO Step 1             |             0:10 |          |
+| *** TODO Step 2             |             0:10 |          |
+| *** TODO Step 3             |             5:10 |          |
+| **** TODO Step 3.1          |             2:00 |          |
+| **** TODO Step 3.2          |             3:00 |          |
+| **** TODO Step 3.3          |             0:10 |          |
+| *** TODO Step 4             |             0:10 |          |
+,#+END:
+#+end_src
+I normally delete the =#+BEGIN:= and =#+END:= lines from the original
+table after providing the estimate to the client to ensure I don't
+accidentally update the table by hitting =C-c C-c= on the =#+BEGIN:=
+line.
+
+Saving the original estimate data makes it possible to refine the
+project tasks into subtasks as you work on the project without losing
+the original estimate data.
+*** Reviewing your estimate
+:PROPERTIES:
+:CUSTOM_ID: ReviewingEstimates
+:END:
+
+=Column view= is great for reviewing your estimate.  This shows your
+estimated time value and the total clock time for the project
+side-by-side.
+
+Creating a dynamic clock table with =C-c C-x i RET= is a great way to
+save this project review if you need to make it available to other
+applications.
+
+=C-c C-x C-d= also provides a quick summary of clocked time for the
+current org file.
+** Habits
+#+begin_src emacs-lisp
+; Enable habit tracking (and a bunch of other modules)
+(setq org-modules (quote (org-id
+                          org-info
+                          org-habit)))
+
+; position the habit graph on the agenda to the right of the default
+(setq org-habit-graph-column 50)
+#+end_src
+** Prevent editing invisible text
+:PROPERTIES:
+:CUSTOM_ID: PreventInvisibleEdits
+:END:
+[2012-07-20 Fri 22:26]
+
+The following setting prevents accidentally editing hidden text when the point is inside a folded region.
+This can happen if you are in the body of a heading and globally fold the org-file with =S-TAB=
+
+I find invisible edits (and undo's) hard to deal with so now I can't edit invisible text.
+=C-c C-r= (org-reveal) will display where the point is if it is buried in invisible text
+to allow editing again.
+
+#+header: :tangle yes
+#+begin_src emacs-lisp
+(setq org-catch-invisible-edits 'error)
+#+end_src
+
 * stuff to keep from old setup
 ** clock keys
 #+BEGIN_SRC emacs-lisp
@@ -694,7 +853,7 @@ disabled because it takes too long when clocking captures
 #+END_SRC
 *** log into drawer
 #+BEGIN_SRC emacs-lisp
-(setq org-log-into-drawer nil)
+(setq org-log-into-drawer "LOGBOOK")
 #+END_SRC
 *** remove empty LOGBOOK drawers on clock out
 #+BEGIN_SRC emacs-lisp
