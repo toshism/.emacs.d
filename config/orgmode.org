@@ -36,7 +36,8 @@
 *** agenda files
 #+BEGIN_SRC emacs-lisp
   (setq org-agenda-files (list "~/dev/notes/gannet.org"
-                               "~/dev/notes/natgeo/channel-redesign/natgeo.org"))
+                               "~/dev/notes/natgeo/channel-redesign/natgeo.org"
+                               "~/dev/notes/heapsort.org"))
 #+END_SRC
 ** keyword faces
 #+BEGIN_SRC emacs-lisp

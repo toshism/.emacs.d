@@ -265,6 +265,11 @@ This is really handy. =C-o= opens a new line above the current line, regardless 
 #+END_SRC
 *** orgmode
 #+BEGIN_SRC emacs-lisp
+(load-config "norang-org.org")
+#+END_SRC
+
+my original org config that is disabled currently while i try to move to a setup based on norang.
+#+BEGIN_SRC emacs-lisp :tangle no
 (load-config "orgmode.org")
 #+END_SRC
 *** magit
@@ -281,6 +286,7 @@ This is broken. Seems to be an incompatibility somewhere between versions of web
 #+BEGIN_SRC emacs-lisp
 (ido-mode t)
 #+END_SRC
+
 **** enable flex matching
 #+BEGIN_SRC emacs-lisp
 (setq ido-enable-flex-matching t)
@@ -300,6 +306,7 @@ http://repo.or.cz/w/emacs.git/blob_plain/HEAD:/lisp/ido.el
     (define-key map  'ido-next-match)
     (define-key ido-completion-map " " 'ido-next-match))
 #+END_SRC
+
 *** uniquify buffer names
 <n> is not very useful
 #+BEGIN_SRC emacs-lisp
