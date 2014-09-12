@@ -13,7 +13,7 @@ I don't get phone calls
 #+END_SRC
 
 His colors just for reference.
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp
 (setq org-todo-keyword-faces
       (quote (("TODO" :foreground "red" :weight bold)
               ("NEXT" :foreground "blue" :weight bold)
@@ -395,7 +395,7 @@ core.*
 *.toc
 #+end_example
 ** norang reminder setup
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp
   ; Erase all reminders and rebuilt reminders for today from the agenda
   (defun bh/org-agenda-to-appt ()
     (interactive)
@@ -838,7 +838,11 @@ to allow editing again.
 (setq org-agenda-files (list "~/dev/notes/gannet.org"
 "~/dev/notes/todo.org"
 "~/dev/notes/natgeo/channel-redesign/natgeo.org"
-"~/dev/notes/heapsort.org"))
+"~/dev/notes/heapsort.org"
+"~/dev/notes/refile.org" ;; sometimes i need a reminder before i refile
+"~/dev/notes/goldwater.org"
+"~/dev/notes/work.org"
+))
 #+END_SRC
 
 ** clock settings
@@ -905,10 +909,9 @@ contains an up to date list of the currently supported languages.
 
 You are encouraged to add the following to your personal configuration
 although it is not added by default as a security precaution.
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp
   (setq org-confirm-babel-evaluate nil)
 #+END_SRC
-
 
 *** Code block fontification
 The following displays the contents of code blocks in Org-mode files

@@ -1,0 +1,16 @@
+#+TITLE: Anaconda settings
+
+* Keybindings
+
+* Configuration
+
+** Load in all python buffers
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'python-mode-hook 'anaconda-mode)
+#+END_SRC
+
+** Enable documentation lookup
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'python-mode-hook 'eldoc-mode)
+#+END_SRC
+* Tasks

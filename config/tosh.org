@@ -178,6 +178,13 @@ Alt is hard to hit on the mac, use command
 
          " "
 
+         ;; show the currently activated virtualenv
+         "["
+         '(:exec venv-current-name)
+         "]"
+
+         " "
+
          ;; was this buffer modified since the last save?
          '(:eval (when (buffer-modified-p)
                    (concat "*"  (propertize "Mod"
@@ -346,6 +353,31 @@ make it pretty
   (ensure-package-installed 'leuven-theme)
     (package-initialize)
   (load-theme 'leuven t)
+#+END_SRC
+*** pyenv                                                        :disabled:
+eh... virtualenvwrapper seems better
+#+BEGIN_SRC emacs-lisp :tangle no
+  (ensure-package-installed 'pyenv-mode)
+  (package-initialize)
+#+END_SRC
+*** virtualenvwrapper
+#+BEGIN_SRC emacs-lisp
+  (ensure-package-installed 'virtualenvwrapper)
+  (package-initialize)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (venv-initialize-interactive-shells) ;; if you want interactive shell support
+  (venv-initialize-eshell) ;; if you want eshell support
+  (setq venv-location "~/dev/.virtualenvs_mac/")
+#+END_SRC
+*** anaconda
+#+BEGIN_SRC emacs-lisp
+(load-config "anaconda.org")
+#+END_SRC
+*** Helm
+#+BEGIN_SRC emacs-lisp
+(load-config "helm.org")
 #+END_SRC
 * Tasks [4/6]
 This is personal stuff and can be ignored

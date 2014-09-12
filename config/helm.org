@@ -1,0 +1,81 @@
+#+TITLE: Helm settings
+
+* Install
+Install and initialize  =helm.el=
+#+BEGIN_SRC emacs-lisp
+  (ensure-package-installed 'helm)
+  (package-initialize)
+#+END_SRC
+* Configuration
+** Basic setup
+require helm and some libraries
+#+BEGIN_SRC emacs-lisp
+  (require 'helm)
+  (require 'helm-config)
+  ;; (require 'helm-eshell)
+  ;; (require 'helm-files)
+  (require 'helm-grep)
+#+END_SRC
+** helm-M-x
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "M-x") 'helm-M-x)
+#+END_SRC
+** blob from intro
+http://tuhdo.github.io/helm-intro.html
+#+BEGIN_SRC emacs-lisp
+  (when (executable-find "curl")
+    (setq helm-google-suggest-use-curl-p t))
+
+  (setq helm-quick-update                     t ; do not display invisible candidates
+        helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
+        helm-buffers-fuzzy-matching           t ; fuzzy matching buffer names when non--nil
+        helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
+        helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
+        helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
+        helm-ff-file-name-history-use-recentf t)
+
+  (helm-mode 1)
+#+END_SRC
+** projectile
+#+BEGIN_SRC emacs-lisp
+(ensure-package-installed 'helm-projectile)
+(package-initialize)
+#+END_SRC
+** pydoc
+#+BEGIN_SRC emacs-lisp
+(ensure-package-installed 'helm-pydoc)
+(package-initialize)
+#+END_SRC
+* Keybindings
+** Default helm prefix key
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-c h") 'helm-command-prefix)
+  (global-unset-key (kbd "C-x c"))
+#+END_SRC
+
+** helm mini
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x b") 'helm-mini)
+#+END_SRC
+
+** helm find files
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x C-f") 'helm-find-files)
+#+END_SRC
+
+** projectile
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x p") 'helm-projectile)
+#+END_SRC
+
+** occur
+this is super handy for jumping around in a big file
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-c h o") 'helm-occur)
+#+END_SRC
+
+** google
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-c h g") 'helm-google-suggest)
+#+END_SRC
+* Tasks
