@@ -12,8 +12,9 @@ Install magit gitflow plugin
   (ensure-package-installed 'magit-gitflow)
   (package-initialize)
 
-  (remove-hook 'magit-mode-hook 'turn-on-magit-gitflow)
-  ;; (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+  (require 'magit-gitflow)
+  ;;(remove-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+  (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
 #+END_SRC
 * Set keybinding
 #+BEGIN_SRC emacs-lisp
