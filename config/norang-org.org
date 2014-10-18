@@ -77,6 +77,8 @@ The tags are used to filter tasks in the agenda views conveniently.
                  "* TODO Review %c\n%U\n" :immediate-finish t)
                 ("m" "Meeting" entry (file "~/dev/notes/refile.org")
                  "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
+                ("d" "NowU Deploy" entry (file+olp "~/dev/notes/gannet.org" "Tasks" "Deploy")
+                 "* %U\nrelease %?\n%[~/dev/notes/gannet_deployment_task.org]" :clock-in t :clock-resume t)
                 ("h" "Habit" entry (file "~/dev/notes/refile.org")
                  "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
 #+end_src
@@ -923,4 +925,9 @@ much more like reading and editing of code using its major mode.
 #+BEGIN_SRC emacs-lisp
   (setq org-src-fontify-natively t)
   (setq org-src-tab-acts-natively t)
+#+END_SRC
+** export settings
+include markdown in dispatcher
+#+BEGIN_SRC emacs-lisp
+  (require 'ox-md)
 #+END_SRC

@@ -6,6 +6,15 @@ Install and initialize package
 (ensure-package-installed 'magit)
 (package-initialize)
 #+END_SRC
+
+Install magit gitflow plugin
+#+BEGIN_SRC emacs-lisp
+  (ensure-package-installed 'magit-gitflow)
+  (package-initialize)
+
+  (remove-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+  ;; (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+#+END_SRC
 * Set keybinding
 #+BEGIN_SRC emacs-lisp
 (global-set-key "\C-xg" 'magit-status)
