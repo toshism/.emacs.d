@@ -35,9 +35,7 @@
 ** agenda
 *** agenda files
 #+BEGIN_SRC emacs-lisp
-  (setq org-agenda-files (list "~/dev/notes/gannet.org"
-                               "~/dev/notes/natgeo/channel-redesign/natgeo.org"
-                               "~/dev/notes/heapsort.org"))
+  (setq org-agenda-files (list "~/dev/notes/uniregistry.org"))
 #+END_SRC
 ** keyword faces
 #+BEGIN_SRC emacs-lisp
@@ -59,7 +57,6 @@ some custom faces
    '(org-level-2 ((t (:inherit outline-2 :height 1.1))))
    '(org-special-keyword ((t (:inherit font-lock-keyword-face :foreground "gray49" :height 0.75 :width normal)))))
 #+END_SRC
-
 
 ** clock settings
 *** clock in todo tasks and set status

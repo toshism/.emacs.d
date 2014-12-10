@@ -150,7 +150,8 @@ Alt is hard to hit on the mac, use command
 
          ;; line number
          "@ L:" ;; '%02' to set to 2 chars at least; prevents flickering
-         (propertize "%02l" 'face 'font-lock-type-face)
+         ;;(propertize "%02l" 'face 'font-lock-type-face)
+         (propertize "%02l" 'face 'fg:erc-color-face8)
 
          ;; relative position, size of file
          "    ["
@@ -412,7 +413,7 @@ eh... virtualenvwrapper seems better
 #+BEGIN_SRC emacs-lisp
   (venv-initialize-interactive-shells) ;; if you want interactive shell support
   (venv-initialize-eshell) ;; if you want eshell support
-  (setq venv-location "~/dev/.virtualenvs_mac/")
+  (setq venv-location "~/.virtualenvs/")
 #+END_SRC
 *** anaconda
 #+BEGIN_SRC emacs-lisp
@@ -426,6 +427,15 @@ eh... virtualenvwrapper seems better
 This works much better with django templates, which is what I'm editing 95% of the time.
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+#+END_SRC
+*** Flycheck
+#+BEGIN_SRC emacs-lisp
+(load-config "flycheck.org")
+#+END_SRC
+*** sql-postgres
+User brew installed psql
+#+BEGIN_SRC emacs-lisp
+(setq sql-postgres-program "/usr/local/bin/psql")
 #+END_SRC
 * Tasks [4/6]
 This is personal stuff and can be ignored

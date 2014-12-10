@@ -1,0 +1,16 @@
+#+TITLE: Flycheck config
+
+
+* Install
+Install and initialize package
+#+BEGIN_SRC emacs-lisp
+(ensure-package-installed 'flycheck)
+(package-initialize)
+#+END_SRC
+
+* Configuration
+** Python
+Maximum line length
+#+BEGIN_SRC emacs-lisp
+(setq-default flycheck-flake8-maximum-line-length 120)
+#+END_SRC

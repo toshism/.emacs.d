@@ -53,6 +53,14 @@ http://tuhdo.github.io/helm-intro.html
   (global-unset-key (kbd "C-x c"))
 #+END_SRC
 
+** Use tab for persistent action and C-z for select action
+It makes much more sense to me to switch TAB and C-z
+#+BEGIN_SRC emacs-lisp
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
+(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+#+END_SRC
+
 ** helm mini
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-x b") 'helm-mini)
@@ -68,6 +76,10 @@ http://tuhdo.github.io/helm-intro.html
   (global-set-key (kbd "C-x p") 'helm-projectile)
 #+END_SRC
 
+User helm projectile find file
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-c h f") 'helm-projectile-find-file)
+#+END_SRC
 ** occur
 this is super handy for jumping around in a big file
 #+BEGIN_SRC emacs-lisp

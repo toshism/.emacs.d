@@ -7,24 +7,26 @@
 ** Custom filter groups
 setup some custom filter groups.
 #+BEGIN_SRC emacs-lisp
-(setq ibuffer-saved-filter-groups
-      (quote (("default"
-	       ("SwapServe"
-		(filename . "projects/SwapServe/"))
-               ("PBS"
-                (filename . "projects/PBS/"))
-               ("National Geographic"
-		(filename . "projects/natgeo/"))
-               ("Heapsort"
-                (filename . "projects/heapsort/"))
-               ("Org" ;; all org stuff
-                (mode . org-mode))
-               ("dired"
-                (mode . dired-mode))
-               ("Magit"
-                (name . "\*magit"))
-               ("Emacs"
-                (name . "^\\*.*\\*$"))))))
+  (setq ibuffer-saved-filter-groups
+        (quote (("default"
+                 ;; ("SwapServe"
+                 ;;  (filename . "projects/SwapServe/"))
+                 ;; ("PBS"
+                 ;;  (filename . "projects/PBS/"))
+                 ;; ("National Geographic"
+                 ;;  (filename . "projects/natgeo/"))
+                 ("Heapsort"
+                  (filename . "projects/heapsort/"))
+                 ("Uniregistry"
+                  (filename . "projects/registry/"))
+                 ("Org" ;; all org stuff
+                  (mode . org-mode))
+                 ("dired"
+                  (mode . dired-mode))
+                 ("Magit"
+                  (name . "\*magit"))
+                 ("Emacs"
+                  (name . "^\\*.*\\*$"))))))
 #+END_SRC
 
 ** Hide empty filter groups

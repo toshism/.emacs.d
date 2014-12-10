@@ -42,6 +42,20 @@ https://github.com/jsoa/Development/blob/master/dotfiles/emacs.d/jsoa/jabber.el
   (setq jabber-roster-line-format " %c %-25n %u %-8s (%r)")
 #+END_SRC
 ** Don't steal mini buffer focus
+#+BEGIN_SRC emacs-lisp
+(defun jsoa/jabber-connect-hook (jc)
+  (jabber-send-presence "" "Online" 10)
+  (jabber-whitespace-ping-start)
+
+  ;; Disable the minibuffer getting jabber messages when active
+  ;; See http://www.emacswiki.org/JabberEl
+  (define-jabber-alert echo "Show a message in the echo area"
+    (lambda (msg)
+      (unless (minibuffer-prompt)
+        (message "%s" msg))))
+)
+(add-hook 'jabber-post-connect-hooks 'jsoa/jabber-connect-hook)
+#+END_SRC
 #+BEGIN_SRC emacs-lisp :tangle no
   (define-jabber-alert echo "Show a message in the echo area"
     (lambda (msg)

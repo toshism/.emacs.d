@@ -1,5 +1,12 @@
 #+TITLE: Anaconda settings
 
+* Install
+Install and initialize package
+#+BEGIN_SRC emacs-lisp
+(ensure-package-installed 'anaconda-mode)
+(package-initialize)
+#+END_SRC
+
 * Keybindings
 
 * Configuration
