@@ -59,12 +59,26 @@ account settings, passwords, etc.
 (setq config-dir "~/.emacs.d/config/")
 #+END_SRC
 ** General emacs settings
+*** Start server
+#+BEGIN_SRC emacs-lisp
+  (server-start)
+#+END_SRC
 *** Turn off useless window junk
 #+BEGIN_SRC emacs-lisp
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 #+END_SRC
 
+Turn off menu when running in a terminal
+#+BEGIN_SRC emacs-lisp
+  (cond
+   ((eq window-system 'x)
+    (message "Running in X")
+    (menu-bar-mode 1))
+   (t
+    (message "Running in terminal")
+    (menu-bar-mode 0)))
+#+END_SRC
 *** Turn off startup message
 #+BEGIN_SRC emacs-lisp
 (setq inhibit-startup-message t
@@ -194,6 +208,12 @@ Alt is hard to hit on the mac, use command
                            "*")))
 
          ))
+#+END_SRC
+*** Kill-ring clipboard for terminal
+#+BEGIN_SRC emacs-lisp
+  (load "~/.emacs.d/elisp/pbcopy.el")
+  (require 'pbcopy)
+  (turn-on-pbcopy)
 #+END_SRC
 ** Custom key bindings
 *** Goto line number
