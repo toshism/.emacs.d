@@ -9,5 +9,63 @@ Install and initialize ein
 
 * Keybindings
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-c e l") 'ein:notebooklist-open)
+  (global-set-key (kbd "C-c e l") 'ein:notebooklist-open)
+  (global-set-key (kbd "C-c e n") 'start-notebook)
+  (global-set-key (kbd "C-c e b") 'start-open-notebooklist)
+  (global-set-key (kbd "C-c e j") 'new-junk-notebook)
+#+END_SRC
+
+* Config
+
+** Set up vars
+#+BEGIN_SRC emacs-lisp
+  (setq notebook-buffer-name "*inotebook*")
+  (setq notebook-server-address "http://127.0.0.1:8888")
+  (setq notebook-directory "~/dev/notebooks")
+  (setq note-options (concat "--notebook-dir=" notebook-directory))
+#+END_SRC
+
+* Functions
+
+** Get notebook buffer
+#+BEGIN_SRC emacs-lisp
+  (defun get-notebook-buffer ()
+    (get-buffer notebook-buffer-name))
+#+END_SRC
+
+** Start notebook server
+
+#+BEGIN_SRC emacs-lisp
+  (defun start-notebook ()
+    "start ipython notebook server if not already started
+     default storage is in ~/dev/notebooks"
+    (interactive)
+    (unless (get-notebook-buffer)
+      (start-process "inotebook" notebook-buffer-name "ipython" "notebook" note-options "--no-browser")))
+#+END_SRC
+
+** Open notebook list
+Starts server if it's not already running
+#+BEGIN_SRC emacs-lisp
+  (defun start-open-notebooklist ()
+    "open notebooklist browser, start server first if it's not running"
+    (interactive)
+    (progn
+      (unless (get-notebook-buffer)
+        (start-notebook)
+        (sit-for 5))
+      (ein:notebooklist-open notebook-server-address)))
+#+END_SRC
+
+** Open new junk notebook
+Open a new junk notebook, starting server first if it's not running
+#+BEGIN_SRC emacs-lisp
+  (defun new-junk-notebook ()
+    "start a new junk notebook, start server first if it's not running"
+    (interactive)
+    (progn
+      (unless (get-notebook-buffer)
+        (start-notebook)
+        (sit-for 5))
+      (ein:junk-new (ein:junk-notebook-name) notebook-server-address)))
 #+END_SRC

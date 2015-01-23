@@ -63,6 +63,11 @@ account settings, passwords, etc.
 #+BEGIN_SRC emacs-lisp
   (server-start)
 #+END_SRC
+*** If linux use super for meta
+#+BEGIN_SRC emacs-lisp
+(if (eq system-type 'gnu/linux)
+    (setq x-super-keysym 'meta))
+#+END_SRC
 *** Turn off useless window junk
 #+BEGIN_SRC emacs-lisp
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -77,6 +82,7 @@ Turn off menu when running in a terminal
     (menu-bar-mode 1))
    (t
     (message "Running in terminal")
+    (setq x-super-keysym 'meta)
     (menu-bar-mode 0)))
 #+END_SRC
 *** Turn off startup message
@@ -347,10 +353,12 @@ my original org config that is disabled currently while i try to move to a setup
 #+BEGIN_SRC emacs-lisp
 (load-config "magit.org")
 #+END_SRC
-*** Emacs iPython Notebook                                       :disabled:
-This is broken. Seems to be an incompatibility somewhere between versions of websocket.el, ein, and ipython
-#+BEGIN_SRC emacs-lisp :tangle no
-(load-config "ein.org")
+*** Emacs iPython Notebook
+This is broken. Seems to be an incompatibility somewhere between versions of websocket.el, ein, and ipython >= 1.
+
+
+#+BEGIN_SRC emacs-lisp
+  (load-config "ein.org")
 #+END_SRC
 *** ido
 **** enable ido
