@@ -6,6 +6,20 @@ Install and initialize  =helm.el=
   (ensure-package-installed 'helm)
   (package-initialize)
 #+END_SRC
+
+** helm related packages
+*** helm-swoop
+#+BEGIN_SRC emacs-lisp
+  (ensure-package-installed 'helm-swoop)
+  (package-initialize)
+#+END_SRC
+**** key bindings
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "M-i") 'helm-swoop)
+  (global-set-key (kbd "M-I") 'helm-swoop-back-to-last-point)
+  (global-set-key (kbd "C-c M-i") 'helm-multi-swoop)
+  (global-set-key (kbd "C-x M-i") 'helm-multi-swoop-all)
+#+END_SRC
 * Configuration
 ** Basic setup
 require helm and some libraries

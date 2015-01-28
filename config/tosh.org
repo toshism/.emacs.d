@@ -107,6 +107,15 @@ Turn off menu when running in a terminal
   (global-hl-line-mode t))
 #+END_SRC
 
+keep syntax colors on highlighted line
+#+BEGIN_SRC emacs-lisp
+  (set-face-foreground 'highlight nil)
+#+END_SRC
+
+set highlight color
+#+BEGIN_SRC emacs-lisp
+  (set-face-attribute 'region nil :background "#b8b8b8")
+#+END_SRC
 *** Preserve syntax highlighting
 This preserves syntax highlighting on current line when =hl-line-mode= is enabled
 #+BEGIN_SRC emacs-lisp
@@ -464,6 +473,26 @@ This works much better with django templates, which is what I'm editing 95% of t
 User brew installed psql
 #+BEGIN_SRC emacs-lisp
 (setq sql-postgres-program "/usr/local/bin/psql")
+#+END_SRC
+*** expand region
+#+BEGIN_SRC emacs-lisp
+  (ensure-package-installed 'expand-region)
+  (package-initialize)
+#+END_SRC
+**** keybindings
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-=") 'er/expand-region)
+#+END_SRC
+*** multiple cursors
+#+BEGIN_SRC emacs-lisp
+  (ensure-package-installed 'multiple-cursors)
+  (package-initialize)
+#+END_SRC
+**** keybindings
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 #+END_SRC
 * Tasks [4/6]
 This is personal stuff and can be ignored
