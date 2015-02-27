@@ -132,9 +132,9 @@ I waste though. This should be separate from the clock out command. Clock out wi
 - [X] set default task id [[*Clock setup][default task]]
 
 my keys mappings for norang clock setup
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "<f1> i") 'bh/punch-in)
-(global-set-key (kbd "<f1> o") 'bh/punch-out)
+#+BEGIN_SRC emacs-lisp tangle: no
+;; (global-set-key (kbd "<f1> i") 'bh/punch-in)
+;; (global-set-key (kbd "<f1> o") 'bh/punch-out)
 (global-set-key (kbd "<f1> w") 'bh/clock-in-organization-task-as-default)
 #+END_SRC
 
@@ -915,7 +915,6 @@ although it is not added by default as a security precaution.
 #+BEGIN_SRC emacs-lisp
   (setq org-confirm-babel-evaluate nil)
 #+END_SRC
-
 *** Code block fontification
 The following displays the contents of code blocks in Org-mode files
 using the major-mode of the code.  It also changes the behavior of

@@ -101,7 +101,7 @@ Turn off menu when running in a terminal
 (setq ring-bell-function 'ignore)
 #+END_SRC
 
-*** Highlight current line
+*** Highlights (current line, region etc)
 #+BEGIN_SRC emacs-lisp
 (when (fboundp 'global-hl-line-mode)
   (global-hl-line-mode t))
@@ -109,17 +109,17 @@ Turn off menu when running in a terminal
 
 keep syntax colors on highlighted line
 #+BEGIN_SRC emacs-lisp
-  (set-face-foreground 'highlight nil)
+  (set-face-attribute 'highlight nil :foreground 'unspecified :underline nil)
 #+END_SRC
 
 set highlight color
 #+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'region nil :background "#b8b8b8")
+  (set-face-attribute 'region nil :background "#b8b8b8" :foreground 'unspecified)
 #+END_SRC
 *** Preserve syntax highlighting
 This preserves syntax highlighting on current line when =hl-line-mode= is enabled
 #+BEGIN_SRC emacs-lisp
-(set-face-foreground 'highlight nil)
+  (set-face-foreground 'highlight nil)
 #+END_SRC
 
 *** Show line number in modeline
@@ -429,6 +429,7 @@ I like to split windows.[[https://github.com/dimitri/switch-window][switch-windo
 #+END_SRC
 *** Theme
 This is not really mode specific but it needs to be run after the packages config
+
 make it pretty
 #+BEGIN_SRC emacs-lisp
   (ensure-package-installed 'leuven-theme)
@@ -493,6 +494,151 @@ User brew installed psql
   (global-set-key (kbd "C->") 'mc/mark-next-like-this)
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
   (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+#+END_SRC
+*** Dired/+
+Open a new dired buffer showing only marked files from current dired buffer
+#+BEGIN_SRC emacs-lisp
+  (defun tl/dired-from-marked (x)
+    "Open a new dired buffer showing only marked files from current dired buffer"
+    (interactive "sEnter dired buffer name: ")
+    (dired (cons x (dired-get-marked-files)))
+  )
+#+END_SRC
+
+add marked buffers to existing dired buffer
+#+BEGIN_SRC emacs-lisp tangle: no
+  (defun tl/dired-add-to-buffer (x)
+    (interactive "P")
+    )
+
+#+END_SRC
+**** scratch working
+working on helm extension to add files to a custom dired buffer
+http://wikemacs.org/wiki/How_to_write_helm_extensions
+
+see here https://www.youtube.com/watch?v=XjKtkEMUYGc
+^^ around 9:00 or so he brings in helm
+#+BEGIN_SRC emacs-lisp :tangle no
+
+  (setq some-helm-source
+        '((name . "Select dired buffer to add")
+          (candidates . buffer-list-helm)
+          (action . (lambda (candidate)
+                      (message-box "%s" candidate)))))
+
+  (helm :sources '(some-helm-source helm-source-buffer-not-found))
+  (helm :sources '(add-files-to-dired tl/helm-source-buffer-not-found))
+
+  (remove-nils (buffer-list-helm))
+
+  (defun buffer-list-helm ()
+    (remove-nils (mapcar 'format-buffer-for-helm (buffer-list))))
+
+  (defun remove-nils (dired-buffer-list)
+    (delete nil dired-buffer-list))
+
+  (defun buffer-display-cons (buffer)
+    (cons (buffer-name buffer) buffer))
+
+  (defun format-buffer-for-helm (buffer)
+    (if (string-equal (buffer-mode buffer) "dired-mode")
+        (buffer-display-cons buffer)))
+
+  (defun buffer-mode (buffer-or-string)
+    "Returns the major mode associated with a buffer."
+    (with-current-buffer buffer-or-string
+      major-mode))
+
+  (defun list-dired-files ()
+    "Return a list of files (only) in the current dired buffer."
+    (eval-when-compile (require 'cl-lib))
+    (require 'dired-aux)
+    (let (flist)
+      (cl-flet ((fpush (fname) (push fname flist)))
+        (tl/dired-map-dired-file-lines #'fpush))
+      (nreverse flist)))
+
+  (defun tl/dired-map-dired-file-lines (fun)
+    ;; Perform FUN with point at the end of each line.
+    ;; FUN takes one argument, the absolute filename.
+    (save-excursion
+      (let (file buffer-read-only)
+        (goto-char (point-min))
+        (while (not (eobp))
+          (save-excursion
+            (and (not (eolp))
+                 (setq file (dired-get-filename nil t)) ; nil on non-file
+                 (progn (end-of-line)
+                        (funcall fun file))))
+          (forward-line 1)))))
+
+
+  (defun get-dired-files (dired-buffer)
+    (with-current-buffer dired-buffer
+      (dired (cons "custom dired" (list-dired-files)))))
+
+  (setq add-to-dired-file-list
+        '((name . "Select dired buffer")
+          (candidates . buffer-list-helm)
+          (action . (lambda (candidate)
+                      (with-current-buffer candidate
+                        (let ((new-files (cons (list-dired-files) (dired-get-marked-files))))
+                          (dired (cons "ettesttest" new-files))))))))
+
+    (cons (list-dired-files) (dired-get-marked-files))
+
+  (defun tl/test ()
+    (helm :sources '(add-to-dired-file-list helm-source-buffer-not-found)))
+
+
+#+END_SRC
+
+*** yasnippet
+#+BEGIN_SRC emacs-lisp
+  (ensure-package-installed 'yasnippet)
+  (package-initialize)
+#+END_SRC
+
+enable globally
+#+BEGIN_SRC emacs-lisp
+  (yas-global-mode 1)
+#+END_SRC
+*** eshell
+custom prompt
+#+BEGIN_SRC emacs-lisp
+  (defmacro with-face (str &rest properties)
+    `(propertize ,str 'face (list ,@properties)))
+
+  (defun curr-dir-git-branch-string (pwd)
+    "Returns current git branch as a string, or the empty string if
+        PWD is not in a git repo (or the git command is not found)."
+    (interactive)
+    (when (and (eshell-search-path "git")
+               (locate-dominating-file pwd ".git"))
+      (let ((git-output (shell-command-to-string (concat "cd " pwd " && git branch | grep '\\*' | sed -e 's/^\\* //'"))))
+        (concat "["
+                (if (> (length git-output) 0)
+                    (substring git-output 0 -1)
+                  "(no branch)")
+                "]")
+        )))
+
+  (defun tl/eshell-prompt ()
+    (concat
+     (with-face (curr-dir-git-branch-string (eshell/pwd)) :foreground "cyan")
+     (with-face (eshell/pwd) :foreground "green")
+     (with-face "\n")
+     (with-face "$" :foreground "red")
+     (with-face " " :forground "white")))
+  ;; (setq eshell-prompt-function 'tl/eshell-prompt)
+  (setq eshell-prompt-function (lambda () (concat venv-current-name ": " (eshell/pwd) " $ ")))
+  ;; (setq eshell-prompt-function ''#[0 "\300\301 !\302 \303U\203 \304\202 \305P\207"[abbreviate-file-name eshell/pwd user-uid 0 " # " " $ "]3 "\n\n(fn)"])
+  (setq eshell-highlight-prompt t)
+#+END_SRC
+*** jinja2 mode
+#+BEGIN_SRC emacs-lisp
+  (ensure-package-installed 'jinja2-mode)
+  (package-initialize)
 #+END_SRC
 * Tasks [4/6]
 This is personal stuff and can be ignored
