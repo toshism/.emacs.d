@@ -162,74 +162,6 @@ Alt is hard to hit on the mac, use command
 (setq mac-command-modifier 'meta
       mac-option-modifier nil)
 #+END_SRC
-*** Custom modeline
-#+BEGIN_SRC emacs-lisp
-  (setq-default mode-line-format
-        (list
-         ;; little breathing room
-         " "
-
-         ;; @ if we are editing a remote file
-         ;; - if we're local
-         (propertize "%@" 'face 'font-lock-warning-face)
-
-         ;; the buffer name; the file name as a tool tip
-         '(:eval (propertize "%b " 'face 'font-lock-warning-face
-                             'help-echo (buffer-file-name)))
-
-         ;; line number
-         "@ L:" ;; '%02' to set to 2 chars at least; prevents flickering
-         ;;(propertize "%02l" 'face 'font-lock-type-face)
-         (propertize "%02l" 'face 'fg:erc-color-face8)
-
-         ;; relative position, size of file
-         "    ["
-         (propertize "%p" 'face 'font-lock-constant-face) ;; % above top
-         "/"
-         (propertize "%I" 'face 'font-lock-constant-face) ;; size
-         "] "
-
-         ;; is this buffer read-only?
-         '(:eval (when buffer-read-only
-                   (concat "["  (propertize "RO"
-                                            'face 'font-lock-type-face
-                                            'help-echo "Buffer is read-only")
-                           "]")))
-         ;;"] "
-
-         ;; the current major mode for the buffer.
-         " ["
-         '(:eval (propertize "%m" 'face 'font-lock-string-face
-                             'help-echo buffer-file-coding-system))
-         "] "
-
-         ;; global mode string, used for notifications and org clock time etc.
-         'global-mode-string
-
-         " "
-
-         ;; show the currently activated virtualenv
-         "["
-         '(:exec venv-current-name)
-         "]"
-
-         " "
-
-         ;; was this buffer modified since the last save?
-         '(:eval (when (buffer-modified-p)
-                   (concat "*"  (propertize "Mod"
-                                            'face 'font-lock-warning-face
-                                            'help-echo "Buffer has been modified")
-                           "*")))
-
-         ))
-#+END_SRC
-*** Kill-ring clipboard for terminal
-#+BEGIN_SRC emacs-lisp
-  (load "~/.emacs.d/elisp/pbcopy.el")
-  (require 'pbcopy)
-  (turn-on-pbcopy)
-#+END_SRC
 ** Custom key bindings
 *** Goto line number
 #+BEGIN_SRC emacs-lisp
@@ -427,15 +359,7 @@ I like to split windows.[[https://github.com/dimitri/switch-window][switch-windo
   (ensure-package-installed 'switch-window)
   (package-initialize)
 #+END_SRC
-*** Theme
-This is not really mode specific but it needs to be run after the packages config
 
-make it pretty
-#+BEGIN_SRC emacs-lisp
-  (ensure-package-installed 'leuven-theme)
-    (package-initialize)
-  (load-theme 'leuven t)
-#+END_SRC
 *** pyenv                                                        :disabled:
 eh... virtualenvwrapper seems better
 #+BEGIN_SRC emacs-lisp :tangle no
@@ -639,6 +563,104 @@ custom prompt
 #+BEGIN_SRC emacs-lisp
   (ensure-package-installed 'jinja2-mode)
   (package-initialize)
+#+END_SRC
+*** slime
+#+BEGIN_SRC emacs-lisp :tangle no
+  (load-config "slime.org")
+#+END_SRC
+*** Kill-ring clipboard for terminal
+#+BEGIN_SRC emacs-lisp
+  (load "~/.emacs.d/elisp/pbcopy.el")
+  (require 'pbcopy)
+  (turn-on-pbcopy)
+#+END_SRC
+*** psql command
+#+BEGIN_SRC emacs-lisp
+(setq psql-command "/usr/local/bin/psql")
+#+END_SRC
+*** Add brew stuff to execute path
+#+BEGIN_SRC emacs-lisp
+  (setq exec-path (append exec-path '("/usr/local/bin")))
+#+END_SRC
+*** Theme
+This is not really mode specific but it needs to be run after the packages config
+
+make it pretty
+#+BEGIN_SRC emacs-lisp
+  (ensure-package-installed 'moe-theme)
+  (package-initialize)
+  (require 'moe-theme)
+  (load-theme 'moe-dark t)
+#+END_SRC
+*** Custom modeline
+#+BEGIN_SRC emacs-lisp
+  (ensure-package-installed 'powerline)
+  (package-initialize)
+  (powerline-moe-theme)
+  ;; (Available colors: blue, orange, green ,magenta, yellow, purple, red, cyan, w/b.)
+  (moe-theme-set-color 'green)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (setq-default mode-line-format
+        (list
+         ;; little breathing room
+         " "
+
+         ;; @ if we are editing a remote file
+         ;; - if we're local
+         (propertize "%@" 'face 'font-lock-warning-face)
+
+         ;; the buffer name; the file name as a tool tip
+         '(:eval (propertize "%b " 'face 'font-lock-warning-face
+                             'help-echo (buffer-file-name)))
+
+         ;; line number
+         "@ L:" ;; '%02' to set to 2 chars at least; prevents flickering
+         ;;(propertize "%02l" 'face 'font-lock-type-face)
+         (propertize "%02l" 'face 'fg:erc-color-face8)
+
+         ;; relative position, size of file
+         "    ["
+         (propertize "%p" 'face 'font-lock-constant-face) ;; % above top
+         "/"
+         (propertize "%I" 'face 'font-lock-constant-face) ;; size
+         "] "
+
+         ;; is this buffer read-only?
+         '(:eval (when buffer-read-only
+                   (concat "["  (propertize "RO"
+                                            'face 'font-lock-type-face
+                                            'help-echo "Buffer is read-only")
+                           "]")))
+         ;;"] "
+
+         ;; the current major mode for the buffer.
+         " ["
+         '(:eval (propertize "%m" 'face 'font-lock-string-face
+                             'help-echo buffer-file-coding-system))
+         "] "
+
+         ;; global mode string, used for notifications and org clock time etc.
+         'global-mode-string
+
+         " "
+
+         ;; show the currently activated virtualenv
+         "["
+         '(:exec venv-current-name)
+         "]"
+
+         " "
+
+         ;; was this buffer modified since the last save?
+         '(:eval (when (buffer-modified-p)
+                   (concat "*"  (propertize "Mod"
+                                            'face 'font-lock-warning-face
+                                            'help-echo "Buffer has been modified")
+                           "*")))
+
+         ))
 #+END_SRC
 * Tasks [4/6]
 This is personal stuff and can be ignored

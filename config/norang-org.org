@@ -902,12 +902,13 @@ to activate more languages using the customize interface for the
 one below.  The customize interface of =org-babel-load-languages=
 contains an up to date list of the currently supported languages.
 #+BEGIN_SRC emacs-lisp
-      (org-babel-do-load-languages
-       'org-babel-load-languages
-       '((emacs-lisp . t)
-         (shell . t)
-         (ditaa . t)
-         (python . t)))
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (shell . t)
+     (ditaa . t)
+     (python . t)
+     (sql .t)))
 #+END_SRC
 
 You are encouraged to add the following to your personal configuration

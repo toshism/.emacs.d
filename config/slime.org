@@ -1,0 +1,23 @@
+* Install
+#+BEGIN_SRC emacs-lisp
+  ;; (ensuer-package-installed 'slime)
+  ;; (package-initialize
+#+END_SRC
+use git version
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'load-path "~/.emacs.d/elisp/slime")
+#+END_SRC
+
+auto loads
+#+BEGIN_SRC emacs-lisp
+  (require 'slime-autoloads)
+#+END_SRC
+* Config
+** Set inferior lisp
+#+BEGIN_SRC emacs-lisp
+  (setq inferior-lisp-program "/usr/local/bin/sbcl")
+#+END_SRC
+** Fancy
+#+BEGIN_SRC emacs-lisp
+  (setq slime-contribs '(slime-fancy))
+#+END_SRC

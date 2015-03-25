@@ -15,8 +15,4 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
- '(custom-enabled-themes (quote (wombat)))
- '(custom-safe-themes
-   (quote
-    ("19d84b6b3d8ff178fcf8c19ae97bd1b6c74bb07903d5856caa36b107ce923134" default)))
  '(global-flycheck-mode t nil (flycheck)))
