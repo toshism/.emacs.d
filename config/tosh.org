@@ -564,6 +564,11 @@ custom prompt
   (ensure-package-installed 'jinja2-mode)
   (package-initialize)
 #+END_SRC
+*** js2 javascript mode
+#+BEGIN_SRC emacs-lisp
+  (ensure-package-installed 'js2-mode)
+  (package-initialize)
+#+END_SRC
 *** slime
 #+BEGIN_SRC emacs-lisp :tangle no
   (load-config "slime.org")

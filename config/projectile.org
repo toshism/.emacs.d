@@ -15,3 +15,10 @@ Install and initialize =projectile.el=
 #+BEGIN_SRC emacs-lisp
 (projectile-global-mode)
 #+END_SRC
+
+* cache
+#+BEGIN_SRC emacs-lisp
+(setq projectile-enable-caching t)
+#+END_SRC
+
+projectile-invalidate-cache bound to C-c p i
