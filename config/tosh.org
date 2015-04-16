@@ -672,6 +672,29 @@ make it pretty
 
          ))
 #+END_SRC
+*** restclient
+#+BEGIN_SRC emacs-lisp
+  (ensure-package-installed 'restclient)
+  (package-initialize)
+#+END_SRC
+
+*example*
+just hit =C-c C-c= on the "POST" line
+#+BEGIN_SRC :tangle no
+POST https://jira.atlassian.com/rest/api/2/search
+Content-Type: application/json
+
+{
+        "jql": "project = HSP",
+        "startAt": 0,
+        "maxResults": 15,
+        "fields": [
+                "summary",
+                "status",
+                "assignee"
+        ]
+}
+#+END_SRC
 * Tasks [4/6]
 This is personal stuff and can be ignored
 ** DONE figure out how to load external files
