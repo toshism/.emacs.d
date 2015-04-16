@@ -65,12 +65,14 @@ The tags are used to filter tasks in the agenda views conveniently.
 
   ;; Capture templates for: TODO tasks, Notes, appointments, meetings, and org-protocol
   (setq org-capture-templates
-        (quote (("t" "todo" entry (file "~/dev/notes/refile.org")
+        (quote (("t" "todo" entry (file+headline "~/dev/notes/uniregistry.org" "Tasks")
                  "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
-                ("r" "respond" entry (file "~/dev/notes/refile.org")
+                ("r" "respond" entry (file+headline "~/dev/notes/uniregistry.org" "Tasks")
                  "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
                 ("n" "note" entry (file "~/dev/notes/refile.org")
                  "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+                ("s" "code snippet" entry (file+headline "~/dev/notes/stuff.org" "Refile")
+                 "* %? \n%U\n")
                 ("j" "Journal" entry (file+datetree "~/dev/notes/diary.org")
                  "* %?\n%U\n" :clock-in t :clock-resume t)
                 ("w" "org-protocol" entry (file "~/dev/notes/refile.org")
@@ -838,13 +840,11 @@ to allow editing again.
 ** agenda
 *** agenda files
 #+BEGIN_SRC emacs-lisp
-(setq org-agenda-files (list "~/dev/notes/gannet.org"
+(setq org-agenda-files (list
 "~/dev/notes/todo.org"
-"~/dev/notes/natgeo/channel-redesign/natgeo.org"
-"~/dev/notes/heapsort.org"
 "~/dev/notes/refile.org" ;; sometimes i need a reminder before i refile
-"~/dev/notes/goldwater.org"
 "~/dev/notes/work.org"
+"~/dev/notes/uniregistry.org"
 ))
 #+END_SRC
 
