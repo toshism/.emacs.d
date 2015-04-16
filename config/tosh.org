@@ -569,6 +569,11 @@ custom prompt
   (ensure-package-installed 'js2-mode)
   (package-initialize)
 #+END_SRC
+
+make js2-mode default for all js files
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'auto-mode-alist (cons (rx ".js" eos) 'js2-mode))
+#+END_SRC
 *** slime
 #+BEGIN_SRC emacs-lisp :tangle no
   (load-config "slime.org")
