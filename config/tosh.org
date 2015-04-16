@@ -342,13 +342,6 @@ makes buffers include part of the file path before the name
 #+BEGIN_SRC emacs-lisp
 (load-config "projectile.org")
 #+END_SRC
-*** skewer                                                       :disabled:
-live page reloading and js evaluation in emacs. sort of a slime-ish thing for js/html/css
-looks pretty awesome. alternative to swank-js.
-- https://github.com/skeeto/skewer-mode
-#+BEGIN_SRC emacs-lisp :tangle no
-(load-config "skewer.org")
-#+END_SRC
 *** jabber
 #+BEGIN_SRC emacs-lisp
   (load-config "jabber.org")
@@ -360,12 +353,6 @@ I like to split windows.[[https://github.com/dimitri/switch-window][switch-windo
   (package-initialize)
 #+END_SRC
 
-*** pyenv                                                        :disabled:
-eh... virtualenvwrapper seems better
-#+BEGIN_SRC emacs-lisp :tangle no
-  (ensure-package-installed 'pyenv-mode)
-  (package-initialize)
-#+END_SRC
 *** virtualenvwrapper
 #+BEGIN_SRC emacs-lisp
   (ensure-package-installed 'virtualenvwrapper)
