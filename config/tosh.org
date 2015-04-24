@@ -660,7 +660,7 @@ make it pretty
          ))
 #+END_SRC
 *** restclient
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (ensure-package-installed 'restclient)
   (package-initialize)
 #+END_SRC

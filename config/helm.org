@@ -6,20 +6,6 @@ Install and initialize  =helm.el=
   (ensure-package-installed 'helm)
   (package-initialize)
 #+END_SRC
-
-** helm related packages
-*** helm-swoop
-#+BEGIN_SRC emacs-lisp
-  (ensure-package-installed 'helm-swoop)
-  (package-initialize)
-#+END_SRC
-**** key bindings
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "M-i") 'helm-swoop)
-  (global-set-key (kbd "M-I") 'helm-swoop-back-to-last-point)
-  (global-set-key (kbd "C-c M-i") 'helm-multi-swoop)
-  (global-set-key (kbd "C-x M-i") 'helm-multi-swoop-all)
-#+END_SRC
 * Configuration
 ** Basic setup
 require helm and some libraries
@@ -50,15 +36,20 @@ http://tuhdo.github.io/helm-intro.html
 
   (helm-mode 1)
 #+END_SRC
+** pydoc
+#+BEGIN_SRC emacs-lisp
+(ensure-package-installed 'helm-pydoc)
+(package-initialize)
+#+END_SRC
 ** projectile
 #+BEGIN_SRC emacs-lisp
 (ensure-package-installed 'helm-projectile)
 (package-initialize)
 #+END_SRC
-** pydoc
+** helm-swoop
 #+BEGIN_SRC emacs-lisp
-(ensure-package-installed 'helm-pydoc)
-(package-initialize)
+  (ensure-package-installed 'helm-swoop)
+  (package-initialize)
 #+END_SRC
 * Keybindings
 ** Default helm prefix key
@@ -103,5 +94,12 @@ this is super handy for jumping around in a big file
 ** google
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-c h g") 'helm-google-suggest)
+#+END_SRC
+** helm-swpp
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "M-i") 'helm-swoop)
+  (global-set-key (kbd "M-I") 'helm-swoop-back-to-last-point)
+  (global-set-key (kbd "C-c M-i") 'helm-multi-swoop)
+  (global-set-key (kbd "C-x M-i") 'helm-multi-swoop-all)
 #+END_SRC
 * Tasks

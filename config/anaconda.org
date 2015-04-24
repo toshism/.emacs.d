@@ -7,6 +7,11 @@ Install and initialize package
 (package-initialize)
 #+END_SRC
 
+Install ac-anaconda for autocomplete
+#+BEGIN_SRC emacs-lisp
+(ensure-package-installed 'ac-anaconda)
+(package-initialize)
+#+END_SRC
 * Keybindings
 
 * Configuration
@@ -19,5 +24,10 @@ Install and initialize package
 ** Enable documentation lookup
 #+BEGIN_SRC emacs-lisp
   (add-hook 'python-mode-hook 'eldoc-mode)
+#+END_SRC
+
+** Auto-complete backend ac-anaconda
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'python-mode-hook 'ac-anaconda-setup)
 #+END_SRC
 * Tasks
