@@ -386,6 +386,11 @@ User brew installed psql
 #+BEGIN_SRC emacs-lisp
 (setq sql-postgres-program "/usr/local/bin/psql")
 #+END_SRC
+
+not sure why but psql-command seems to need to be set as well?
+#+BEGIN_SRC emacs-lisp
+(setq psql-command "/usr/local/bin/psql")
+#+END_SRC
 *** expand region
 #+BEGIN_SRC emacs-lisp
   (ensure-package-installed 'expand-region)
@@ -570,10 +575,6 @@ make js2-mode default for all js files
   (load "~/.emacs.d/elisp/pbcopy.el")
   (require 'pbcopy)
   (turn-on-pbcopy)
-#+END_SRC
-*** psql command
-#+BEGIN_SRC emacs-lisp
-(setq psql-command "/usr/local/bin/psql")
 #+END_SRC
 *** Add brew stuff to execute path
 #+BEGIN_SRC emacs-lisp
