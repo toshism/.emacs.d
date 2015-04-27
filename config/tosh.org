@@ -203,8 +203,8 @@ This is handy for jumping back and forth and easier than the regular register co
   (global-set-key "\C-ct" 'copy-to-register)
   (global-set-key "\C-cv" 'insert-register)
 #+END_SRC
-**** Window register
-#+BEGIN_SRC emacs-lisp
+**** Window register                                            :disabled:
+#+BEGIN_SRC emacs-lisp :tangle no
   (global-set-key "\C-cw" 'window-configuration-to-register)
 #+END_SRC
 *** Switch window
@@ -272,7 +272,7 @@ Find and appropriate keybinding
 ;; (define-key sh-mode-map [(control ?j)] 'sh-send-line-or-region-and-step)
 ;; (define-key sh-mode-map [(control ?c) (control ?z)] 'sh-switch-to-process-buffer)
 #+END_SRC
-** Mode specific settings
+>** Mode specific settings
 *** packages
 #+BEGIN_SRC emacs-lisp
 (load-config "packages.org")
@@ -521,7 +521,7 @@ enable globally
 #+END_SRC
 *** eshell
 custom prompt
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (defmacro with-face (str &rest properties)
     `(propertize ,str 'face (list ,@properties)))
 
@@ -566,7 +566,7 @@ make js2-mode default for all js files
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'auto-mode-alist (cons (rx ".js" eos) 'js2-mode))
 #+END_SRC
-*** slime
+*** slime                                                        :disabled:
 #+BEGIN_SRC emacs-lisp :tangle no
   (load-config "slime.org")
 #+END_SRC
@@ -660,7 +660,7 @@ make it pretty
 
          ))
 #+END_SRC
-*** restclient
+*** restclient                                                   :disabled:
 #+BEGIN_SRC emacs-lisp :tangle no
   (ensure-package-installed 'restclient)
   (package-initialize)
@@ -682,6 +682,15 @@ Content-Type: application/json
                 "assignee"
         ]
 }
+#+END_SRC
+*** git gutter
+#+BEGIN_SRC emacs-lisp
+  (ensure-package-installed 'git-gutter)
+  (package-initialize)
+#+END_SRC
+*** hydra
+#+BEGIN_SRC emacs-lisp
+  (load_config "hydra.org")
 #+END_SRC
 * Tasks [4/6]
 This is personal stuff and can be ignored

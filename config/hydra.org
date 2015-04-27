@@ -1,0 +1,123 @@
+#+TITLE: Hydra config
+
+This looks neat. going to give it a shot to help use some commands i normally can't remember
+https://github.com/abo-abo/hydra
+* install
+#+BEGIN_SRC emacs-lisp
+  (ensure-package-installed 'hydra)
+  (package-initialize)
+#+END_SRC
+* setup
+** window commands
+#+BEGIN_SRC emacs-lisp
+  (defhydra hydra-window ()
+    "windows"
+    ("w" enlarge-window-horizontally "Wider")
+    ("n" shrink-window-horizontally "Narrower")
+    ("t" enlarge-window "Taller")
+    ("s" shrink-window "Shorter")
+    ("r" window-configuration-to-register "Windows to register" :color blue))
+
+  (global-set-key (kbd "C-c w") 'hydra-window/body)
+#+END_SRC
+** rectangle
+#+BEGIN_SRC emacs-lisp
+  (defhydra hydra-rectangle ()
+    "rectangle"
+    ("k" kill-rectangle "Kill")
+    ("s" open-rectangle "Fill space")
+    ("c" copy-rectangle-as-kill "Copy")
+    ("p" yank-rectangle "Paste"))
+
+  (global-set-key (kbd "C-c r") 'hydra-rectangle/body)
+#+END_SRC
+** zoom
+#+BEGIN_SRC emacs-lisp
+  (defhydra hydra-zoom ()
+    "zoom"
+    ("f" text-scale-increase "BIGGER")
+    ("j" text-scale-decrease "smaller"))
+  (global-set-key (kbd "C-c z") 'hydra-zoom/body)
+#+END_SRC
+** projectile
+projectile other window
+#+BEGIN_SRC emacs-lisp
+  (defhydra hydra-projectile-other-window (:color teal)
+    "projectile-other-window"
+    ("f"  projectile-find-file-other-window        "file")
+    ("g"  projectile-find-file-dwim-other-window   "file dwim")
+    ("d"  projectile-find-dir-other-window         "dir")
+    ("b"  projectile-switch-to-buffer-other-window "buffer")
+    ("q"  nil                                      "cancel" :color blue))
+  ;; (global-set-key (kbd "C-c P") 'hydra-projectile-other-window/body)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (defhydra hydra-projectile (:color teal
+                                     :hint nil)
+    "
+       PROJECTILE: %(projectile-project-root)
+
+       Find File            Search/Tags          Buffers                Cache
+  ------------------------------------------------------------------------------------------
+    _f_: file            _a_: ag                _i_: Ibuffer           _c_: cache clear
+    _g_: file dwim                              _b_: switch to buffer  _x_: remove known project
+    _D_: file curr dir   _o_: multi-occur     _s-k_: Kill all buffers  _X_: cleanup non-existing
+    _r_: recent file                                               ^^^^_z_: cache current
+    _d_: dir
+
+  "
+    ("a"   helm-projectile-ag)
+    ("b"   helm-projectile-switch-to-buffer)
+    ("c"   projectile-invalidate-cache)
+    ("d"   helm-projectile-find-dir)
+    ("f"   helm-projectile-find-file)
+    ("g"   helm-projectile-find-file-dwim)
+    ("D"   projectile-find-file-in-directory)
+    ("i"   projectile-ibuffer)
+    ("K"   projectile-kill-buffers)
+    ("s-k" projectile-kill-buffers)
+    ("m"   projectile-multi-occur)
+    ("o"   projectile-multi-occur)
+    ("s-p" helm-projectile-switch-project "switch project")
+    ("p"   helm-projectile-switch-project)
+    ("s"   helm-projectile-switch-project)
+    ("r"   helm-projectile-recentf)
+    ("x"   projectile-remove-known-project)
+    ("X"   projectile-cleanup-known-projects)
+    ("z"   projectile-cache-current-file)
+    ("`"   hydra-projectile-other-window/body "other window")
+    ("q"   nil "cancel" :color blue))
+(global-set-key (kbd "C-c P") 'hydra-projectile/body)
+#+END_SRC
+** git gutter
+#+BEGIN_SRC emacs-lisp
+  (defhydra hydra-git-gutter (:body-pre (git-gutter-mode 1)
+                                        :hint nil)
+    "
+  Git gutter:
+    _j_: next hunk        _s_tage hunk     _q_uit
+    _k_: previous hunk    _r_evert hunk    _Q_uit and deactivate git-gutter
+    ^ ^                   _p_opup hunk
+    _h_: first hunk
+    _l_: last hunk        set start _R_evision
+  "
+    ("j" git-gutter:next-hunk)
+    ("k" git-gutter:previous-hunk)
+    ("h" (progn (goto-char (point-min))
+                (git-gutter:next-hunk 1)))
+    ("l" (progn (goto-char (point-min))
+                (git-gutter:previous-hunk 1)))
+    ("s" git-gutter:stage-hunk)
+    ("r" git-gutter:revert-hunk)
+    ("p" git-gutter:popup-hunk)
+    ("R" git-gutter:set-start-revision)
+    ("q" nil :color blue)
+    ("Q" (progn (git-gutter-mode -1)
+                ;; git-gutter-fringe doesn't seem to
+                ;; clear the markup right away
+                (sit-for 0.1)
+                (git-gutter:clear))
+     :color blue))
+(global-set-key (kbd "C-c s") 'hydra-git-gutter/body)
+#+END_SRC
