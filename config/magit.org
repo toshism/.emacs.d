@@ -16,6 +16,11 @@ Install magit gitflow plugin
   ;;(remove-hook 'magit-mode-hook 'turn-on-magit-gitflow)
   (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
 #+END_SRC
+
+this is super annoying
+#+BEGIN_SRC emacs-lisp
+  (setq magit-last-seen-setup-instructions "1.4.0")
+#+END_SRC
 * Set keybinding
 #+BEGIN_SRC emacs-lisp
 (global-set-key "\C-xg" 'magit-status)

@@ -690,7 +690,7 @@ Content-Type: application/json
 #+END_SRC
 *** hydra
 #+BEGIN_SRC emacs-lisp
-  (load_config "hydra.org")
+  (load-config "hydra.org")
 #+END_SRC
 * Tasks [4/6]
 This is personal stuff and can be ignored

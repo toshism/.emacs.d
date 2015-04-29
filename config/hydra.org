@@ -61,8 +61,8 @@ projectile other window
        Find File            Search/Tags          Buffers                Cache
   ------------------------------------------------------------------------------------------
     _f_: file            _a_: ag                _i_: Ibuffer           _c_: cache clear
-    _g_: file dwim                              _b_: switch to buffer  _x_: remove known project
-    _D_: file curr dir   _o_: multi-occur     _s-k_: Kill all buffers  _X_: cleanup non-existing
+    _g_: file dwim       _o_: multi-occur       _b_: switch to buffer  _x_: remove known project
+    _D_: file curr dir   ^ ^                  _s-k_: Kill all buffers  _X_: cleanup non-existing
     _r_: recent file                                               ^^^^_z_: cache current
     _d_: dir
 
