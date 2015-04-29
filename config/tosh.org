@@ -272,7 +272,7 @@ Find and appropriate keybinding
 ;; (define-key sh-mode-map [(control ?j)] 'sh-send-line-or-region-and-step)
 ;; (define-key sh-mode-map [(control ?c) (control ?z)] 'sh-switch-to-process-buffer)
 #+END_SRC
->** Mode specific settings
+** Mode specific settings
 *** packages
 #+BEGIN_SRC emacs-lisp
 (load-config "packages.org")
