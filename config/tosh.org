@@ -1,5 +1,5 @@
-#+STARTUP: indent
 #+TITLE: Tosh's Emacs configuration
+#+STARTUP: indent
 
 * About
 I originally this based on [[https://dl.dropboxusercontent.com/u/3968124/sacha-emacs.html][Sacha Chua's emacs config]] which is in turn based on [[http://eschulte.me/emacs24-starter-kit/#installation][Emacs Starter Kit]].
@@ -548,7 +548,7 @@ custom prompt
      (with-face " " :forground "white")))
   ;; (setq eshell-prompt-function 'tl/eshell-prompt)
   (setq eshell-prompt-function (lambda () (concat venv-current-name ": " (eshell/pwd) " $ ")))
-  ;; (setq eshell-prompt-function ''#[0 "\300\301 !\302 \303U\203 \304\202 \305P\207"[abbreviate-file-name eshell/pwd user-uid 0 " # " " $ "]3 "\n\n(fn)"])
+  ;; (setq eshell-prompt-function ''#[0 "\300\301 !\302 \303U\203\304\202\305P\207"[abbreviate-file-name eshell/pwd user-uid 0 " # " " $ "]3 "\n\n(fn)"])
   (setq eshell-highlight-prompt t)
 #+END_SRC
 *** jinja2 mode
