@@ -1,3 +1,6 @@
+# THIS OLD AND ABANDONED. 
+If you are actually curious you can [see here for my current config](https://github.com/toshism/dotfiles/tree/master/emacs/.emacs.d)
+
 emacs.d
 =======
 
